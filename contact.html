@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>联系我 | Contact Me · 沉疯</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+</head>
+<body class="page-inner">
+
+  <button class="hamburger" id="hamburger" aria-label="菜单 / Menu" aria-expanded="false">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+
+  <nav class="sidebar" id="sidebar" aria-hidden="true">
+    <div class="sidebar-inner">
+      <div class="sidebar-logo">
+        <span class="zh">沉疯</span>
+        <span class="en">Chenfeng</span>
+      </div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="index.html" class="nav-link">
+            <span class="nav-zh">主页</span>
+            <span class="nav-en">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="about.html" class="nav-link">
+            <span class="nav-zh">关于我</span>
+            <span class="nav-en">About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="oc.html" class="nav-link">
+            <span class="nav-zh">关于我的OC</span>
+            <span class="nav-en">About My OC</span>
+          </a>
+        </li>
+        <li class="nav-group">
+          <button class="nav-group-toggle" aria-expanded="true">
+            <span class="nav-zh">其他</span>
+            <span class="nav-en">More</span>
+            <svg class="arrow" viewBox="0 0 10 6" fill="none">
+              <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <ul class="nav-sub is-open">
+            <li>
+              <a href="https://github.com/ydw449276-lgtm" target="_blank" rel="noopener" class="nav-link sub">
+                <span class="nav-zh">GitHub 主页</span>
+                <span class="nav-en">GitHub Profile</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/ydw449276-lgtm/ydw449276-lgtm.github.io" target="_blank" rel="noopener" class="nav-link sub">
+                <span class="nav-zh">网站源码</span>
+                <span class="nav-en">Source Code</span>
+              </a>
+            </li>
+            <li>
+              <a href="contact.html" class="nav-link sub active">
+                <span class="nav-zh">联系我</span>
+                <span class="nav-en">Contact</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <span>© 2025 沉疯 · GitHub Pages</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="page-transition-cover" id="transitionCover"></div>
+
+  <main class="inner-page">
+    <div class="inner-container oc-container">
+
+      <header class="inner-header" data-reveal>
+        <h1 class="page-title">
+          <span class="title-zh">联系我：</span>
+          <span class="title-en">Contact Me:</span>
+        </h1>
+        <div class="title-line"></div>
+      </header>
+
+      <section class="oc-section" data-reveal>
+        <h2 class="oc-section-title">我的邮箱 / Email</h2>
+        <div class="oc-grid">
+          
+          <a href="mailto:ydw449276@gmail.com" class="oc-item">
+            <span class="oc-label">主邮箱 (Main)</span>
+            <span class="oc-value">ydw449276@gmail.com</span>
+          </a>
+
+          <a href="mailto:18662588727@163.com" class="oc-item">
+            <span class="oc-label">不常用 (Alt)</span>
+            <span class="oc-value">18662588727@163.com</span>
+          </a>
+
+          <a href="mailto:hhh18662588727@outlook.com" class="oc-item">
+            <span class="oc-label">备用 (Secondary)</span>
+            <span class="oc-value">hhh18662588727@outlook.com</span>
+          </a>
+
+          <a href="mailto:1208462518@qq.com" class="oc-item">
+            <span class="oc-label">其他 (Other)</span>
+            <span class="oc-value">1208462518@qq.com</span>
+          </a>
+
+        </div>
+      </section>
+
+      <div class="back-wrap" data-reveal>
+        <a href="index.html" class="btn-back">
+          <span>← </span>
+          <span class="btn-zh">返回主页</span>
+          <span class="btn-en">Back to Home</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
