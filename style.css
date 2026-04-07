@@ -22,7 +22,6 @@
   --t-slow:      0.65s;
 }
 
-/* 深色模式变量 */
 [data-theme="dark"] {
   --bg:          #121212;
   --bg-card:     #1E1E1E;
@@ -58,7 +57,7 @@ ul { list-style: none; }
 img { display: block; max-width: 100%; }
 
 /* ============================================================
-   深浅色切换按钮 & 波纹动画
+   深浅色切换按钮 & 实体波浪动画
 ============================================================ */
 .theme-toggle {
   position: fixed;
@@ -91,26 +90,29 @@ img { display: block; max-width: 100%; }
   stroke-linejoin: round;
 }
 
-/* 根据你的要求：浅色显太阳，深色显月亮 */
 .moon-icon { display: none; }
 .sun-icon { display: block; }
 [data-theme="dark"] .moon-icon { display: block; }
 [data-theme="dark"] .sun-icon { display: none; }
 
-.theme-ripple-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  pointer-events: none; z-index: 9999; overflow: hidden;
+/* 真正的满屏波浪效果 */
+.theme-wave {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  z-index: -1; /* 藏在文字背后扩展 */
+  pointer-events: none;
 }
 
-.ripple-circle {
-  position: absolute; width: 2px; height: 2px; border-radius: 50%;
-  background: var(--ink); opacity: 0.15; transform: scale(0);
+.theme-wave.animate {
+  animation: waveExpand 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-.ripple-circle.animate { animation: rippleSpread 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-@keyframes rippleSpread {
-  0% { transform: scale(0); opacity: 0.2; }
-  100% { transform: scale(3000); opacity: 0; }
+@keyframes waveExpand {
+  0% { transform: translate(-50%, -50%) scale(0); }
+  100% { transform: translate(-50%, -50%) scale(120); } /* 扩大120倍盖满屏幕 */
 }
 
 /* ============================================================
