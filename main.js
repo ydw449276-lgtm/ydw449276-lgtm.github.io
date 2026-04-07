@@ -1,5 +1,5 @@
 /**
- * main.js — 沉疯的个人网站交互逻辑 (带波纹主题切换)
+ * main.js — 沉疯的个人网站交互逻辑 (究极波浪主题切换)
  */
 
 "use strict";
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
 
   /* ----------------------------------------------------------
-     1. 深浅主题切换 & 波纹动画
+     1. 实体波浪扩散切换深浅主题
   ---------------------------------------------------------- */
   const themeToggle = document.getElementById("themeToggle");
   const savedTheme = localStorage.getItem("theme") || "light";
@@ -16,29 +16,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (themeToggle) {
     themeToggle.addEventListener("click", (e) => {
+      if (themeToggle.disabled) return;
+      themeToggle.disabled = true;
+
       const x = e.clientX;
       const y = e.clientY;
-
-      const ripple = document.createElement("div");
-      ripple.classList.add("ripple-circle");
-      ripple.style.left = x + "px";
-      ripple.style.top = y + "px";
+      const currentTheme = body.getAttribute("data-theme");
+      const newTheme = currentTheme === "light" ? "dark" : "light";
       
-      const overlay = document.createElement("div");
-      overlay.classList.add("theme-ripple-overlay");
-      overlay.appendChild(ripple);
-      body.appendChild(overlay);
+      // 提取旧背景色固定到最底层，并让当前 body 变透明，以便露出背后的波浪
+      const oldBg = getComputedStyle(body).backgroundColor;
+      document.documentElement.style.backgroundColor = oldBg;
+      body.style.backgroundColor = "transparent";
 
-      requestAnimationFrame(() => ripple.classList.add("animate"));
+      // 创建一个实体的波浪圆球
+      const wave = document.createElement("div");
+      wave.className = "theme-wave";
+      wave.style.left = x + "px";
+      wave.style.top = y + "px";
+      // 波浪的颜色就是即将切换的新主题颜色
+      wave.style.backgroundColor = newTheme === "dark" ? "#121212" : "#F7F5F0";
+      body.appendChild(wave);
 
+      // 触发波浪扩散动画
+      requestAnimationFrame(() => {
+        wave.classList.add("animate");
+      });
+
+      // 立马切换主题数据，让文字颜色开始慢慢渐变，融入波浪
+      body.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+
+      // 当波浪刚好盖满全屏时 (600ms)，完成背景交接并清理战场
       setTimeout(() => {
-        const currentTheme = body.getAttribute("data-theme");
-        const newTheme = currentTheme === "light" ? "dark" : "light";
-        body.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-      }, 350);
-
-      setTimeout(() => overlay.remove(), 800);
+        body.style.transition = "none";
+        body.style.backgroundColor = "";
+        document.documentElement.style.backgroundColor = "";
+        wave.remove();
+        
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            body.style.transition = "";
+          });
+        });
+        themeToggle.disabled = false;
+      }, 600);
     });
   }
 
