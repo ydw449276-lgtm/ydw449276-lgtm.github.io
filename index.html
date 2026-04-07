@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>沉疯的个人主页 | Chenfeng's Personal Site</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+</head>
+<body class="page-home">
+
+  <button class="hamburger" id="hamburger" aria-label="菜单 / Menu" aria-expanded="false">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+
+  <nav class="sidebar" id="sidebar" aria-hidden="true">
+    <div class="sidebar-inner">
+      <div class="sidebar-logo">
+        <span class="zh">沉疯</span>
+        <span class="en">Chenfeng</span>
+      </div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="index.html" class="nav-link">
+            <span class="nav-zh">主页</span>
+            <span class="nav-en">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="about.html" class="nav-link">
+            <span class="nav-zh">关于我</span>
+            <span class="nav-en">About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="oc.html" class="nav-link">
+            <span class="nav-zh">关于我的OC</span>
+            <span class="nav-en">About My OC</span>
+          </a>
+        </li>
+        <li class="nav-group">
+          <button class="nav-group-toggle" aria-expanded="false">
+            <span class="nav-zh">其他</span>
+            <span class="nav-en">More</span>
+            <svg class="arrow" viewBox="0 0 10 6" fill="none">
+              <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <ul class="nav-sub">
+            <li>
+              <a href="https://github.com/ydw449276-lgtm" target="_blank" rel="noopener" class="nav-link sub">
+                <span class="nav-zh">GitHub 主页</span>
+                <span class="nav-en">GitHub Profile</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/ydw449276-lgtm/ydw449276-lgtm.github.io" target="_blank" rel="noopener" class="nav-link sub">
+                <span class="nav-zh">网站源码</span>
+                <span class="nav-en">Source Code</span>
+              </a>
+            </li>
+            <li>
+              <a href="contact.html" class="nav-link sub">
+                <span class="nav-zh">联系我</span>
+                <span class="nav-en">Contact</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <span>© 2025 沉疯 · GitHub Pages</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="overlay" id="overlay"></div>
+
+  <main class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="bg-blob blob1"></div>
+      <div class="bg-blob blob2"></div>
+    </div>
+
+    <section class="hero-text" id="heroText">
+      <div class="line-wrap">
+        <p class="welcome-zh">Hi，我是沉疯，</p>
+      </div>
+      <div class="line-wrap">
+        <p class="welcome-zh delay1">这是我在 Github 搭建的第一个个人网站</p>
+      </div>
+      <div class="line-wrap">
+        <p class="welcome-en delay2">Hi, I'm Chenfeng —</p>
+      </div>
+      <div class="line-wrap">
+        <p class="welcome-en delay3">this is my first personal website built on GitHub.</p>
+      </div>
+    </section>
+
+    <div class="scroll-hint" id="scrollHint" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="scroll-text-zh">向下滚动</span>
+      <span class="scroll-text-en">Scroll down</span>
+    </div>
+  </main>
+
+  <section class="buttons-section" id="buttonsSection">
+    <div class="btn-group">
+      <a href="about.html" class="btn-main" data-reveal>
+        <span class="btn-zh">关于我</span>
+        <span class="btn-en">About Me</span>
+        <span class="btn-arrow">→</span>
+      </a>
+      <a href="oc.html" class="btn-main" data-reveal>
+        <span class="btn-zh">关于我的OC</span>
+        <span class="btn-en">About My OC</span>
+        <span class="btn-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>
