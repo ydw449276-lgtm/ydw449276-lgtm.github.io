@@ -11,6 +11,11 @@
 </head>
 <body class="page-inner">
 
+  <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+    <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+  </button>
+
   <button class="hamburger" id="hamburger" aria-label="菜单 / Menu" aria-expanded="false">
     <span class="bar"></span>
     <span class="bar"></span>
@@ -24,217 +29,106 @@
         <span class="en">Chenfeng</span>
       </div>
       <ul class="sidebar-nav">
-        <li>
-          <a href="index.html" class="nav-link">
-            <span class="nav-zh">主页</span>
-            <span class="nav-en">Home</span>
-          </a>
-        </li>
-        <li>
-          <a href="about.html" class="nav-link">
-            <span class="nav-zh">关于我</span>
-            <span class="nav-en">About Me</span>
-          </a>
-        </li>
-        <li>
-          <a href="oc.html" class="nav-link active">
-            <span class="nav-zh">关于我的OC</span>
-            <span class="nav-en">About My OC</span>
-          </a>
-        </li>
+        <li><a href="index.html" class="nav-link"><span class="nav-zh">主页</span><span class="nav-en">Home</span></a></li>
+        <li><a href="about.html" class="nav-link"><span class="nav-zh">关于我</span><span class="nav-en">About Me</span></a></li>
+        <li><a href="oc.html" class="nav-link active"><span class="nav-zh">关于我的OC</span><span class="nav-en">About My OC</span></a></li>
         <li class="nav-group">
           <button class="nav-group-toggle" aria-expanded="false">
-            <span class="nav-zh">其他</span>
-            <span class="nav-en">More</span>
-            <svg class="arrow" viewBox="0 0 10 6" fill="none">
-              <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
+            <span class="nav-zh">其他</span><span class="nav-en">More</span>
+            <svg class="arrow" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
           </button>
           <ul class="nav-sub">
-            <li>
-              <a href="https://github.com/ydw449276-lgtm" target="_blank" rel="noopener" class="nav-link sub">
-                <span class="nav-zh">GitHub 主页</span>
-                <span class="nav-en">GitHub Profile</span>
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/ydw449276-lgtm/ydw449276-lgtm.github.io" target="_blank" rel="noopener" class="nav-link sub">
-                <span class="nav-zh">网站源码</span>
-                <span class="nav-en">Source Code</span>
-              </a>
-            </li>
-            <li>
-              <a href="contact.html" class="nav-link sub">
-                <span class="nav-zh">联系我</span>
-                <span class="nav-en">Contact</span>
-              </a>
-            </li>
+            <li><a href="https://github.com/ydw449276-lgtm" target="_blank" rel="noopener" class="nav-link sub"><span class="nav-zh">GitHub 主页</span><span class="nav-en">GitHub Profile</span></a></li>
+            <li><a href="https://github.com/ydw449276-lgtm/ydw449276-lgtm.github.io" target="_blank" rel="noopener" class="nav-link sub"><span class="nav-zh">网站源码</span><span class="nav-en">Source Code</span></a></li>
+            <li><a href="contact.html" class="nav-link sub"><span class="nav-zh">联系我</span><span class="nav-en">Contact</span></a></li>
           </ul>
         </li>
       </ul>
-      <div class="sidebar-footer">
-        <span>© 2025 沉疯 · GitHub Pages</span>
-      </div>
+      <div class="sidebar-footer"><span>© 2025 沉疯 · GitHub Pages</span></div>
     </div>
   </nav>
 
   <div class="overlay" id="overlay"></div>
-
   <div class="page-transition-cover" id="transitionCover"></div>
 
   <main class="inner-page">
     <div class="inner-container oc-container">
-
       <header class="inner-header" data-reveal>
-        <h1 class="page-title">
-          <span class="title-zh">关于我的OC：</span>
-          <span class="title-en">About My OC:</span>
-        </h1>
+        <h1 class="page-title"><span class="title-zh">关于我的OC：</span><span class="title-en">About My OC:</span></h1>
         <div class="title-line"></div>
       </header>
 
       <section class="oc-section" data-reveal>
         <h2 class="oc-section-title">基本信息</h2>
         <div class="oc-grid">
-          <div class="oc-item">
-            <span class="oc-label">姓名</span>
-            <span class="oc-value">风凪fengzhi</span>
-          </div>
-          <div class="oc-item">
-            <span class="oc-label">年龄</span>
-            <span class="oc-value">21</span>
-          </div>
-          <div class="oc-item">
-            <span class="oc-label">性别</span>
-            <span class="oc-value">男</span>
-          </div>
-          <div class="oc-item">
-            <span class="oc-label">生日</span>
-            <span class="oc-value">2005年10月17日 5:20</span>
-          </div>
-          <div class="oc-item">
-            <span class="oc-label">父亲</span>
-            <span class="oc-value">风弦</span>
-          </div>
-          <div class="oc-item">
-            <span class="oc-label">母亲</span>
-            <span class="oc-value">林晚音</span>
-          </div>
-          <div class="oc-item">
-            <span class="oc-label">出生地</span>
-            <span class="oc-value">美国阿拉斯加州安克雷奇市</span>
-          </div>
+          <div class="oc-item"><span class="oc-label">姓名</span><span class="oc-value">风凪fengzhi</span></div>
+          <div class="oc-item"><span class="oc-label">年龄</span><span class="oc-value">21</span></div>
+          <div class="oc-item"><span class="oc-label">性别</span><span class="oc-value">男</span></div>
+          <div class="oc-item"><span class="oc-label">生日</span><span class="oc-value">2005年10月17日 5:20</span></div>
+          <div class="oc-item"><span class="oc-label">父亲</span><span class="oc-value">风弦</span></div>
+          <div class="oc-item"><span class="oc-label">母亲</span><span class="oc-value">林晚音</span></div>
+          <div class="oc-item"><span class="oc-label">出生地</span><span class="oc-value">美国阿拉斯加州安克雷奇市</span></div>
         </div>
       </section>
 
       <section class="oc-section" data-reveal>
         <h2 class="oc-section-title">职业身份</h2>
         <div class="oc-grid">
-          <div class="oc-item">
-            <span class="oc-label">职业身份</span>
-            <span class="oc-value">小说家</span>
-          </div>
-          <div class="oc-item">
-            <span class="oc-label">主要职业</span>
-            <span class="oc-value">生态学家</span>
-          </div>
+          <div class="oc-item"><span class="oc-label">职业身份</span><span class="oc-value">小说家</span></div>
+          <div class="oc-item"><span class="oc-label">主要职业</span><span class="oc-value">生态学家</span></div>
         </div>
       </section>
 
       <section class="oc-section" data-reveal>
         <h2 class="oc-section-title">外貌特征</h2>
         <div class="oc-grid">
-          <div class="oc-item full">
-            <span class="oc-label">外貌特征</span>
-            <span class="oc-value">三色头发（红色，浅蓝，玫红），四角星眼睛，双色异瞳（蓝色，深玫红），蓝色衣服（各种各样的蓝色）</span>
-          </div>
-          <div class="oc-item">
-            <span class="oc-label">身高</span>
-            <span class="oc-value">179cm（178.99cm）</span>
-          </div>
-          <div class="oc-item full">
-            <span class="oc-label">头发颜色和样式</span>
-            <span class="oc-value">三色头发（红色，浅蓝，玫红）天生自然生长，无染发</span>
-          </div>
-          <div class="oc-item">
-            <span class="oc-label">眼睛颜色</span>
-            <span class="oc-value">紫红色，蓝色</span>
-          </div>
-          <div class="oc-item">
-            <span class="oc-label">穿着风格</span>
-            <span class="oc-value">黑配蓝，灰配黑</span>
-          </div>
+          <div class="oc-item full"><span class="oc-label">外貌特征</span><span class="oc-value">三色头发（红色，浅蓝，玫红），四角星眼睛，双色异瞳（蓝色，深玫红），蓝色衣服（各种各样的蓝色）</span></div>
+          <div class="oc-item"><span class="oc-label">身高</span><span class="oc-value">179cm（178.99cm）</span></div>
+          <div class="oc-item full"><span class="oc-label">头发颜色和样式</span><span class="oc-value">三色头发（红色，浅蓝，玫红）天生自然生长，无染发</span></div>
+          <div class="oc-item"><span class="oc-label">眼睛颜色</span><span class="oc-value">紫红色，蓝色</span></div>
+          <div class="oc-item"><span class="oc-label">穿着风格</span><span class="oc-value">黑配蓝，灰配黑</span></div>
         </div>
       </section>
 
       <section class="oc-section" data-reveal>
         <h2 class="oc-section-title">性格与行为</h2>
         <div class="oc-grid">
-          <div class="oc-item full">
-            <span class="oc-label">性格特点</span>
-            <span class="oc-value">总是乐意尝试新鲜事</span>
-          </div>
-          <div class="oc-item full">
-            <span class="oc-label">性格描述</span>
-            <span class="oc-value">神经大条，关键时刻比较注意细节</span>
-          </div>
-          <div class="oc-item full">
-            <span class="oc-label">行为习惯</span>
-            <span class="oc-value">总是喜欢在做什么之前写入日记本</span>
-          </div>
-          <div class="oc-item">
-            <span class="oc-label">优点</span>
-            <span class="oc-value">心思缜密，有同情心，勇敢</span>
-          </div>
-          <div class="oc-item">
-            <span class="oc-label">缺点</span>
-            <span class="oc-value">三分钟热度，易冲动，阴晴不定的心情</span>
-          </div>
-          <div class="oc-item">
-            <span class="oc-label">人际关系</span>
-            <span class="oc-value">-10（社交能力）</span>
-          </div>
+          <div class="oc-item full"><span class="oc-label">性格特点</span><span class="oc-value">总是乐意尝试新鲜事</span></div>
+          <div class="oc-item full"><span class="oc-label">性格描述</span><span class="oc-value">神经大条，关键时刻比较注意细节</span></div>
+          <div class="oc-item full"><span class="oc-label">行为习惯</span><span class="oc-value">总是喜欢在做什么之前写入日记本</span></div>
+          <div class="oc-item"><span class="oc-label">优点</span><span class="oc-value">心思缜密，有同情心，勇敢</span></div>
+          <div class="oc-item"><span class="oc-label">缺点</span><span class="oc-value">三分钟热度，易冲动，阴晴不定的心情</span></div>
+          <div class="oc-item"><span class="oc-label">人际关系</span><span class="oc-value">-10（社交能力）</span></div>
         </div>
       </section>
 
       <section class="oc-section" data-reveal>
         <h2 class="oc-section-title">爱好</h2>
         <div class="oc-grid">
-          <div class="oc-item full">
-            <span class="oc-label">爱好</span>
-            <span class="oc-value">爱看小说、漫画，喜欢听歌，收集唱片，喜欢老式有线耳机加上MP3，虽然他的工作是生态学家×小说家，但是他在闲暇时间还是喜欢游玩休闲类电子游戏</span>
-          </div>
+          <div class="oc-item full"><span class="oc-label">爱好</span><span class="oc-value">爱看小说、漫画，喜欢听歌，收集唱片，喜欢老式有线耳机加上MP3，虽然他的工作是生态学家×小说家，但是他在闲暇时间还是喜欢游玩休闲类电子游戏</span></div>
         </div>
       </section>
 
       <section class="oc-section" data-reveal>
         <h2 class="oc-section-title">学习经历</h2>
         <div class="oc-grid">
-          <div class="oc-item full">
-            <span class="oc-label">学习经历</span>
-            <span class="oc-value">在中学时期对植物产生了浓厚的兴趣，高中毕业以后于2023春岁进入美国✗✗大学生态学专业进行学习（预计2029年硕士毕业）</span>
-          </div>
+          <div class="oc-item full"><span class="oc-label">学习经历</span><span class="oc-value">在中学时期对植物产生了浓厚的兴趣，高中毕业以后于2023春岁进入美国✗✗大学生态学专业进行学习（预计2029年硕士毕业）</span></div>
         </div>
       </section>
 
       <section class="oc-section" data-reveal>
         <h2 class="oc-section-title">重要经历</h2>
         <div class="oc-grid">
-          <div class="oc-item full">
-            <span class="oc-label">重要经历</span>
-            <span class="oc-value">21岁半时，经导师推荐参与亚马逊雨林生态短期考察项目，随队进入雨林区域开展为期数周的实地采集与观察工作，在队内主要负责植物样本记录、编号整理以及日常观察日志的书写</span>
-          </div>
+          <div class="oc-item full"><span class="oc-label">重要经历</span><span class="oc-value">21岁半时，经导师推荐参与亚马逊雨林生态短期考察项目，随队进入雨林区域开展为期数周的实地采集与观察工作，在队内主要负责植物样本记录、编号整理以及日常观察日志的书写</span></div>
         </div>
       </section>
 
       <section class="oc-section" data-reveal>
         <h2 class="oc-section-title">家庭背景</h2>
-
         <div class="oc-family-block">
           <h3 class="oc-sub-title">父亲设定</h3>
           <p class="oc-para">父亲是心理医生，1995年3月24日与林晚音结婚，并共赴远洋之美国，于1996年秋在美国开启了读博学业，2001年夏于✗✗大学博士毕业，并于2004年春正式获得美国绿卡，拥有23年临床经验，还在中国时就已是心理医生</p>
         </div>
-
         <div class="oc-family-block">
           <h3 class="oc-sub-title">母亲设定</h3>
           <p class="oc-para">母亲是主教中文的语言学老师，1995年与风弦结婚并共赴远洋后，2000年冬开启了她的读博学业，并于2004年12月20号在✗✗大学博士毕业，2004年春和风弦同步获得美国绿卡，精通英语，日语，西班牙语，法语等多国语言，并拥有21年教龄</p>
@@ -244,24 +138,15 @@
       <section class="oc-section" data-reveal>
         <h2 class="oc-section-title">其他设定</h2>
         <div class="oc-grid">
-          <div class="oc-item full">
-            <span class="oc-label">其他设定</span>
-            <span class="oc-value">值得一提的是，他那极具辨识度的三色头发，是天生自然生长，并没有染发</span>
-          </div>
+          <div class="oc-item full"><span class="oc-label">其他设定</span><span class="oc-value">值得一提的是，他那极具辨识度的三色头发，是天生自然生长，并没有染发</span></div>
         </div>
       </section>
 
       <div class="back-wrap" data-reveal>
-        <a href="index.html" class="btn-back">
-          <span>← </span>
-          <span class="btn-zh">返回主页</span>
-          <span class="btn-en">Back to Home</span>
-        </a>
+        <a href="index.html" class="btn-back"><span>← </span><span class="btn-zh">返回主页</span><span class="btn-en">Back to Home</span></a>
       </div>
-
     </div>
   </main>
-
   <script src="main.js"></script>
 </body>
 </html>
