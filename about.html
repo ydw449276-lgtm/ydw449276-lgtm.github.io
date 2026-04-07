@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>关于我 | About Me · 沉疯</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+</head>
+<body class="page-inner">
+
+  <button class="hamburger" id="hamburger" aria-label="菜单 / Menu" aria-expanded="false">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+
+  <nav class="sidebar" id="sidebar" aria-hidden="true">
+    <div class="sidebar-inner">
+      <div class="sidebar-logo">
+        <span class="zh">沉疯</span>
+        <span class="en">Chenfeng</span>
+      </div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="index.html" class="nav-link">
+            <span class="nav-zh">主页</span>
+            <span class="nav-en">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="about.html" class="nav-link active">
+            <span class="nav-zh">关于我</span>
+            <span class="nav-en">About Me</span>
+          </a>
+        </li>
+        <li>
+          <a href="oc.html" class="nav-link">
+            <span class="nav-zh">关于我的OC</span>
+            <span class="nav-en">About My OC</span>
+          </a>
+        </li>
+        <li class="nav-group">
+          <button class="nav-group-toggle" aria-expanded="false">
+            <span class="nav-zh">其他</span>
+            <span class="nav-en">More</span>
+            <svg class="arrow" viewBox="0 0 10 6" fill="none">
+              <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <ul class="nav-sub">
+            <li>
+              <a href="https://github.com/ydw449276-lgtm" target="_blank" rel="noopener" class="nav-link sub">
+                <span class="nav-zh">GitHub 主页</span>
+                <span class="nav-en">GitHub Profile</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/ydw449276-lgtm/ydw449276-lgtm.github.io" target="_blank" rel="noopener" class="nav-link sub">
+                <span class="nav-zh">网站源码</span>
+                <span class="nav-en">Source Code</span>
+              </a>
+            </li>
+            <li>
+              <a href="contact.html" class="nav-link sub">
+                <span class="nav-zh">联系我</span>
+                <span class="nav-en">Contact</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <span>© 2025 沉疯 · GitHub Pages</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="page-transition-cover" id="transitionCover"></div>
+
+  <main class="inner-page">
+    <div class="inner-container">
+
+      <header class="inner-header" data-reveal>
+        <h1 class="page-title">
+          <span class="title-zh">关于我：</span>
+          <span class="title-en">About Me:</span>
+        </h1>
+        <div class="title-line"></div>
+      </header>
+
+      <div class="about-content">
+
+        <article class="about-block" data-reveal>
+          <p class="text-zh">
+            我是一个热爱探索的玩家，对 2D 像素风游戏情有独钟。那些由方块和像素点构筑的微观世界，总有一种让人沉浸其中的独特魔力。同时，《Minecraft》也是我无法割舍的自留地——在那个无限延伸的沙盒里，创造与探索永无止境。
+          </p>
+          <p class="text-en">
+            I am an avid gamer with a deep affection for 2D pixel-art games. There is a unique, captivating charm in those micro-worlds built from simple pixels. Minecraft is also my ultimate sanctuary — an infinitely expanding sandbox where exploration and creativity truly know no bounds.
+          </p>
+        </article>
+
+        <article class="about-block" data-reveal>
+          <p class="text-zh">
+            音乐是我生活中的情绪解药。我喜欢听中文歌，偏爱那份藏在字里行间的细腻情感与共鸣；而在独处或是需要放空的时候，纯音乐便成了最好的白噪音。没有了歌词的束缚，思绪反而能飞得更远。
+          </p>
+          <p class="text-en">
+            Music is the emotional antidote in my daily life. I love listening to Chinese songs, drawn to the delicate emotions and resonance woven into the lyrics. When I'm alone or need to unwind, instrumental music becomes my perfect ambient companion — without the anchor of words, my thoughts are free to wander.
+          </p>
+        </article>
+
+        <article class="about-block" data-reveal>
+          <p class="text-zh">
+            闲暇时，我也喜欢沉浸在动漫的世界里。我不盲从热门，只看随缘或是真正感兴趣的故事。遇到触动内心的神作，我会忍不住N刷——每一次重温，不仅能剥离出新的剧情细节，更能照见不同心境下的自己。
+          </p>
+          <p class="text-en">
+            In my free time, I love immersing myself in the world of anime. I don't follow trends blindly; I only watch what genuinely catches my eye. When I encounter a masterpiece that touches my heart, I will rewatch it again and again — not just to spot new details, but to experience the story through the lens of a different state of mind.
+          </p>
+        </article>
+
+      </div>
+
+      <div class="back-wrap" data-reveal>
+        <a href="index.html" class="btn-back">
+          <span>← </span>
+          <span class="btn-zh">返回主页</span>
+          <span class="btn-en">Back to Home</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
