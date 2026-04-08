@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>沉疯的云端歌单 | Music</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+  <style>
+    body { background-color: #121212; color: #E8E4DC; font-family: 'Noto Serif SC', sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+    .header { margin-top: 40px; margin-bottom: 20px; text-align: center; }
+    .header h1 { font-size: 1.8rem; letter-spacing: 0.1em; margin-bottom: 5px; }
+    .header p { color: #8A8A8A; font-size: 0.9rem; letter-spacing: 0.05em; }
+    .player-container { width: 90%; max-width: 600px; margin-bottom: 40px; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .aplayer { margin: 0 !important; background: #1E1E1E !important; color: #E8E4DC !important; font-family: inherit !important; }
+    .aplayer .aplayer-info .aplayer-music .aplayer-title { color: #E8E4DC !important; }
+    .aplayer .aplayer-info .aplayer-music .aplayer-author { color: #8A8A8A !important; }
+    .aplayer .aplayer-list ol li { border-top: 1px solid rgba(255,255,255,0.05) !important; }
+    .aplayer .aplayer-list ol li:hover { background: #2A2A2A !important; }
+    .aplayer .aplayer-list ol li.aplayer-list-light { background: #2A2A2A !important; }
+    .aplayer .aplayer-list ol li .aplayer-list-title { color: #E8E4DC !important; }
+    .aplayer .aplayer-list ol li .aplayer-list-author { color: #8A8A8A !important; }
+    .aplayer .aplayer-lrc p { color: #8A8A8A !important; }
+    .aplayer .aplayer-lrc p.aplayer-lrc-current { color: #5B93D4 !important; font-weight: bold; }
+    .btn-back { display: inline-block; padding: 12px 24px; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #8A8A8A; text-decoration: none; font-size: 0.85rem; transition: all 0.3s ease; margin-bottom: 40px; }
+    .btn-back:hover { background: #E8E4DC; color: #121212; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>沉疯喜欢的音乐</h1>
+    <p>Chenfeng's Favorite Music</p>
+  </div>
+  <div class="player-container">
+    <meting-js server="netease" type="playlist" id="8659679592" fixed="false" list-folded="false" autoplay="false" order="list" loop="all"></meting-js>
+  </div>
+  <a href="index.html" class="btn-back"><span>← 返回总基地 (Back to Home)</span></a>
+  <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
+</body>
+</html>
+
