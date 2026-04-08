@@ -1,5 +1,5 @@
 /**
- * main.js — 沉疯的个人网站交互逻辑 (究极波浪主题切换 + 一键复制邮箱)
+ * main.js — 沉疯的个人网站交互逻辑 (波浪切换 + 复制魔法变形)
  */
 
 "use strict";
@@ -190,33 +190,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ----------------------------------------------------------
-     7. 🌟 剪贴板复制逻辑（带绿勾反馈）
+     7. 🌟 剪贴板复制逻辑（带丝滑变形与手绘绿勾动画）
   ---------------------------------------------------------- */
   const copyBtns = document.querySelectorAll(".copy-btn");
   copyBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
-      e.preventDefault(); // 阻止触发其他的跳转行为
-      e.stopPropagation(); // 阻止点到外层的其他框框
+      e.preventDefault(); 
+      e.stopPropagation(); 
       
       const textToCopy = btn.getAttribute("data-copy");
       if (!textToCopy) return;
 
-      // 写入系统剪贴板
       navigator.clipboard.writeText(textToCopy).then(() => {
-        const iconCopy = btn.querySelector(".icon-copy");
-        const iconCheck = btn.querySelector(".icon-check");
         
-        if (iconCopy && iconCheck) {
-          // 隐藏复制图标，显示绿勾
-          iconCopy.style.display = "none";
-          iconCheck.style.display = "block";
-          
-          // 1.5秒后自动换回来
-          setTimeout(() => {
-            iconCopy.style.display = "block";
-            iconCheck.style.display = "none";
-          }, 1500);
-        }
+        // 这一句就像魔法棒，一点上，CSS里的变形和手绘动画就会自动触发
+        btn.classList.add("is-copied");
+        
+        // 让绿勾停留 2 秒，然后拿掉魔法棒，自动变回原来的复制图标
+        setTimeout(() => {
+          btn.classList.remove("is-copied");
+        }, 2000);
+        
       }).catch(err => {
         console.error('复制失败: ', err);
         alert("浏览器权限限制，复制失败，请手动选择复制。");
