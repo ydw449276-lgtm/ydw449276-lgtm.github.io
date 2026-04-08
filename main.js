@@ -1,5 +1,5 @@
 /**
- * main.js — 沉疯的个人网站交互逻辑 (极度精准的 VIP 变色版)
+ * main.js — 沉疯的个人网站交互逻辑 (毫秒级精准变色版)
  */
 
 "use strict";
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const addClass = newTheme === "dark" ? "is-dark" : "is-light";
       const removeClass = currentTheme === "dark" ? "is-dark" : "is-light";
 
-      // 🌟 第 1 步：0 毫秒！你点按的瞬间，右上角按钮立刻换上新衣服，绝不犹豫！
+      // 🌟 第 1 步：0 毫秒！右上角按钮立刻换色
       themeToggle.classList.add(addClass);
       themeToggle.classList.remove(removeClass);
 
@@ -46,22 +46,22 @@ document.addEventListener("DOMContentLoaded", () => {
         wave.classList.add("animate");
       });
 
-      // 🌟 第 2 步：250 毫秒。波浪正好荡漾到左上角，汉堡菜单精准换衣！
+      // 🌟 第 2 步：50 毫秒！波浪起步是“弹射爆炸”速度，瞬间就砸到了左边，汉堡菜单秒切！
       setTimeout(() => {
         const hamburger = document.getElementById("hamburger");
         if (hamburger) {
           hamburger.classList.add(addClass);
           hamburger.classList.remove(removeClass);
         }
-      }, 250);
+      }, 50);
 
-      // 🌟 第 3 步：700 毫秒。波浪基本盖满主要区域，全局文字优雅变色。
+      // 🌟 第 3 步：700 毫秒。波浪铺满全屏一半，文字大部队优雅变色
       setTimeout(() => {
         body.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
       }, 700);
 
-      // 🌟 第 4 步：1600 毫秒。波浪彻底消失，卸下临时强制类，无缝接管全局。
+      // 🌟 第 4 步：1600 毫秒。波浪彻底结束，无缝接管
       setTimeout(() => {
         body.style.transition = "none";
         body.style.backgroundColor = "";
