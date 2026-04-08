@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oneshot · 沉疯</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    .character-card { cursor: pointer; transition: all 0.3s ease; }
+    .avatar-icon { width: 50px; height: 50px; margin-right: 16px; image-rendering: pixelated; border-radius: 6px; object-fit: cover; }
+    .detail-view { display: none; animation: fadeIn 0.4s ease; padding-bottom: 50px; }
+    .detail-header { text-align: center; margin-bottom: 20px; }
+    .detail-avatar { width: 128px; height: 128px; image-rendering: pixelated; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+    .brief-intro { font-size: 1.1rem; font-weight: 500; text-align: center; margin: 10px 0 25px; color: var(--accent); }
+    .scroll-gallery { display: flex; overflow-x: auto; gap: 12px; padding: 10px 5px 20px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+    .scroll-gallery::-webkit-scrollbar { height: 4px; }
+    .scroll-gallery::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 10px; }
+    .scroll-gallery img { width: 85%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px; scroll-snap-align: center; flex-shrink: 0; border: 1px solid var(--border-color); }
+    .full-intro { font-size: 0.95rem; line-height: 1.8; margin-top: 15px; text-align: justify; padding: 20px; background: rgba(128,128,128,0.05); border-radius: 12px; border-left: 3px solid var(--accent); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="page-inner">
+
+  <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+    <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+  </button>
+  <button class="hamburger" id="hamburger" aria-label="菜单 / Menu" aria-expanded="false"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+
+  <nav class="sidebar" id="sidebar" aria-hidden="true">
+    <div class="sidebar-inner">
+      <div class="sidebar-logo"><span class="zh">沉疯</span><span class="en">Chenfeng</span></div>
+      <ul class="sidebar-nav">
+        <li><a href="index.html" class="nav-link"><span class="nav-zh">主页</span><span class="nav-en">Home</span></a></li>
+        <li><a href="about.html" class="nav-link"><span class="nav-zh">关于我</span><span class="nav-en">About Me</span></a></li>
+        <li><a href="oc.html" class="nav-link"><span class="nav-zh">关于我的OC</span><span class="nav-en">About My OC</span></a></li>
+        <li><a href="oneshot.html" class="nav-link active"><span class="nav-en" style="margin-left:0; display:block; text-align:center;">Oneshot</span></a></li>
+        <li class="nav-group">
+          <button class="nav-group-toggle" aria-expanded="false"><span class="nav-zh">其他</span><span class="nav-en">More</span><svg class="arrow" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+          <ul class="nav-sub">
+            <li><a href="https://github.com/ydw449276-lgtm" target="_blank" rel="noopener" class="nav-link sub"><span class="nav-zh">GitHub 主页</span><span class="nav-en">GitHub Profile</span></a></li>
+            <li><a href="https://github.com/ydw449276-lgtm/ydw449276-lgtm.github.io" target="_blank" rel="noopener" class="nav-link sub"><span class="nav-zh">网站源码</span><span class="nav-en">Source Code</span></a></li>
+            <li><a href="contact.html" class="nav-link sub"><span class="nav-zh">联系我</span><span class="nav-en">Contact</span></a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="sidebar-footer"><span>© 2026 沉疯 · GitHub Pages</span></div>
+    </div>
+  </nav>
+
+  <div class="overlay" id="overlay"></div>
+
+  <main class="inner-page">
+    <div class="inner-container oc-container">
+      
+      <div id="listView">
+        <header class="inner-header" data-reveal>
+          <h1 class="page-title"><span class="title-en" style="font-size: 2.2rem;">Oneshot</span></h1>
+          <div class="title-line"></div>
+        </header>
+
+        <section class="oc-section" data-reveal>
+          <h2 class="oc-section-title">Characters</h2>
+          <div class="oc-grid">
+            <div class="oc-item email-card character-card" onclick="showDetail('twm')">
+              <div class="email-info" style="flex-direction: row; align-items: center;">
+                <img src="twm-avatar.webp" class="avatar-icon">
+                <span class="oc-label" style="margin-bottom:0; color:var(--ink);">The World Machine</span>
+              </div>
+            </div>
+            <div class="oc-item email-card character-card" onclick="showDetail('niko')">
+              <div class="email-info" style="flex-direction: row; align-items: center;">
+                <img src="niko-avatar.webp" class="avatar-icon">
+                <span class="oc-label" style="margin-bottom:0; color:var(--ink);">Niko</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="oc-section" data-reveal>
+          <h2 class="oc-section-title">About The Game</h2>
+          <div class="oc-grid">
+            <div class="oc-item email-card" style="grid-column: 1 / -1;">
+              <div class="email-info" style="cursor: default;">
+                <span class="oc-value" style="font-size: 0.95rem; line-height: 1.8; white-space: normal; text-align: justify;">
+                  《OneShot》是一款由 Future Cat 开发的超现实主义、俯视角的解谜冒险独立游戏。游戏的核心特色在于其极具颠覆性的“打破第四面墙”机制（元游戏元素）——游戏不仅仅发生在程序内部，系统会通过生成实体文件、修改电脑壁纸、弹出提示框等方式，与屏幕前的玩家产生直接交互。<br><br>
+                  在这个即将凋零的世界里，玩家将扮演“神明”本身，引导着名为 Niko 的猫耳孩子。Niko 携带着象征“太阳”的发光灯泡，穿梭于荒芜的土地，你们的最终目标是抵达高塔，将阳光重新归还给这个世界。
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="detail-niko" class="detail-view">
+        <button class="btn-back" onclick="hideDetail('niko')" style="margin-bottom:20px; background:transparent; border:1px solid var(--border-color); color:var(--ink); padding:8px 15px; border-radius:6px; cursor:pointer;">← Back</button>
+        <div class="detail-header">
+          <img src="niko-avatar.webp" class="detail-avatar">
+          <h2 style="font-family:'DM Serif Display',serif;">Niko</h2>
+          <div class="brief-intro">被选中的救世主 (The Messiah)</div>
+        </div>
+        
+        <div class="scroll-gallery">
+          <img src="niko-1.webp" onerror="this.style.display='none'">
+          <img src="niko-2.webp" onerror="this.style.display='none'">
+          <img src="niko-3.webp" onerror="this.style.display='none'">
+          <img src="niko-4.webp" onerror="this.style.display='none'">
+          <img src="niko-5.webp" onerror="this.style.display='none'">
+          <img src="niko-6.webp" onerror="this.style.display='none'">
+          <img src="niko-7.webp" onerror="this.style.display='none'">
+          <img src="niko-8.webp" onerror="this.style.display='none'">
+          <img src="niko-9.webp" onerror="this.style.display='none'">
+          <img src="niko-10.webp" onerror="this.style.display='none'">
+          <img src="niko-11.webp" onerror="this.style.display='none'">
+          <img src="niko-12.webp" onerror="this.style.display='none'">
+          <img src="niko-13.webp" onerror="this.style.display='none'">
+          <img src="niko-14.webp" onerror="this.style.display='none'">
+        </div>
+        
+        <div class="full-intro">
+          Niko 是《OneShot》的绝对主角。他们长着类似猫耳的头发，拥有一双明亮的金色大眼睛，总是戴着一顶宽大的棕色软帽，围着一条长长的蓝色围巾。尽管外观极像一只小猫，而且有时会发出类似猫咪的声音，但 Niko 始终坚称自己是人类。<br><br>
+          作为被赋予“救世主”头衔的孩子，Niko 担负着将太阳送往塔顶的重任。Niko 非常善良、充满关怀，并且是游戏中唯一能感知并直接与“玩家”（你）对话的角色。Niko 最喜欢的食物是妈妈亲手做的榛子煎饼（Pancakes）。
+        </div>
+      </div>
+
+      <div id="detail-twm" class="detail-view">
+        <button class="btn-back" onclick="hideDetail('twm')" style="margin-bottom:20px; background:transparent; border:1px solid var(--border-color); color:var(--ink); padding:8px 15px; border-radius:6px; cursor:pointer;">← Back</button>
+        <div class="detail-header">
+          <img src="twm-avatar.webp" class="detail-avatar">
+          <h2 style="font-family:'DM Serif Display',serif;">The World Machine</h2>
+          <div class="brief-intro">维持宇宙的底层引擎 (The Entity)</div>
+        </div>
+        
+        <div class="scroll-gallery">
+          <img src="twm-1.webp" onerror="this.style.display='none'">
+        </div>
+        
+        <div class="full-intro">
+          世界机器（The World Machine），也被称为“实体”，是负责模拟和维持整个《OneShot》世界运行的底层程序。它通常以一台带有发光方形显示器的老式计算机形象出现，有时也会因为逻辑崩坏，借用 Niko 的外表呈现出带有代码乱码的紫色形态。<br><br>
+          由于自身的程序逻辑产生了无法调和的冲突，它陷入了深深的绝望，认为这个世界已不值得被拯救，从而生成了足以摧毁世界的方形乱码（方块）。但在游戏的夏至（Solstice）结局中，通过与玩家和 Niko 的真挚交流，它最终找回了自我，接受了自身的局限，并被成功“驯服”。
+        </div>
+      </div>
+
+    </div>
+  </main>
+  
+  <script src="main.js"></script>
+  <script>
+    function showDetail(id) {
+      document.getElementById('listView').style.display = 'none';
+      document.querySelectorAll('.detail-view').forEach(el => el.style.display = 'none');
+      document.getElementById('detail-' + id).style.display = 'block';
+      window.scrollTo(0,0);
+    }
+    function hideDetail(id) {
+      document.getElementById('detail-' + id).style.display = 'none';
+      document.getElementById('listView').style.display = 'block';
+      window.scrollTo(0,0);
+    }
+  </script>
+</body>
+</html>
