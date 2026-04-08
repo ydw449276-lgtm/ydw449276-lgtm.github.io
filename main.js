@@ -1,5 +1,5 @@
 /**
- * main.js — 沉疯的个人网站交互逻辑 (优化了慢速波浪与果冻复制动画)
+ * main.js — 沉疯的个人网站交互逻辑 (极度放慢的优雅波浪 + 修复 Chrome 动画)
  */
 
 "use strict";
@@ -39,13 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
         wave.classList.add("animate");
       });
 
-      // 🌟 配合变慢的 CSS 波浪，这里的文字变色时机推迟到了 500ms
+      // 🌟 因为波浪变慢到了 1.6 秒，所以变色时机推迟到了 700 毫秒（接近一半的时候变）
       setTimeout(() => {
         body.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
-      }, 500);
+      }, 700);
 
-      // 🌟 清理战场的时机也推迟到 1200ms，等 1.2 秒的波浪完全画完
+      // 🌟 彻底画完、清理残余的时机推迟到了 1600 毫秒 (1.6秒)
       setTimeout(() => {
         body.style.transition = "none";
         body.style.backgroundColor = "";
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         });
         themeToggle.disabled = false;
-      }, 1200);
+      }, 1600);
     });
   }
 
