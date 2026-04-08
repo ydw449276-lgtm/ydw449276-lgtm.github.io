@@ -9,39 +9,29 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
   <style>
-    /* 专属交互与排版 */
+    /* 卡片与布局 */
     .character-card { cursor: pointer; transition: all 0.3s ease; }
     .avatar-icon { width: 50px; height: 50px; margin-right: 16px; image-rendering: pixelated; border-radius: 6px; object-fit: cover; }
-    
     .detail-view { display: none; animation: fadeIn 0.4s ease; padding-bottom: 50px; }
     .detail-header { text-align: center; margin-bottom: 20px; }
     .detail-avatar { width: 128px; height: 128px; image-rendering: pixelated; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
-    
     .brief-intro { font-size: 1.1rem; font-weight: 500; text-align: center; margin: 10px 0 25px; color: var(--accent); }
     
-    /* 完美自适应 1:1 和 16:9 的横向滑动相册 */
-    .scroll-gallery { 
-      display: flex; 
-      overflow-x: auto; 
-      gap: 12px; 
-      padding: 10px 5px 25px; 
-      scroll-snap-type: x mandatory; 
-      -webkit-overflow-scrolling: touch; 
-    }
+    /* 完美自适应画廊 */
+    .scroll-gallery { display: flex; overflow-x: auto; gap: 12px; padding: 10px 5px 25px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
     .scroll-gallery::-webkit-scrollbar { height: 4px; }
     .scroll-gallery::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 10px; }
-    .scroll-gallery img { 
-      height: 200px; /* 固定高度，宽度自适应，绝不裁切 */
-      width: auto; 
-      max-width: 90vw; /* 防止图片过宽撑破手机屏幕 */
-      object-fit: cover; 
-      border-radius: 8px; 
-      scroll-snap-align: center; 
-      flex-shrink: 0; 
-      border: 1px solid var(--border-color); 
-      image-rendering: pixelated;
-      background: rgba(128,128,128,0.1);
-    }
+    .scroll-gallery img { height: 200px; width: auto; max-width: 90vw; object-fit: cover; border-radius: 8px; scroll-snap-align: center; flex-shrink: 0; border: 1px solid var(--border-color); image-rendering: pixelated; background: rgba(128,128,128,0.05); }
+    
+    /* 点击放大的交互样式 */
+    .clickable-img { cursor: zoom-in; transition: filter 0.2s; }
+    .clickable-img:active { filter: brightness(0.7); }
+    
+    /* 全屏预览灯箱 (Lightbox) */
+    .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+    .lightbox img { max-width: 95vw; max-height: 85vh; object-fit: contain; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); image-rendering: pixelated; }
+    .lightbox-close { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.2); color: #FFF; font-size: 2rem; cursor: pointer; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10000; transition: all 0.2s; }
+    .lightbox-close:hover { background: rgba(255,255,255,0.1); transform: scale(1.1); }
     
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
@@ -61,7 +51,7 @@
         <li><a href="index.html" class="nav-link"><span class="nav-zh">主页</span><span class="nav-en">Home</span></a></li>
         <li><a href="about.html" class="nav-link"><span class="nav-zh">关于我</span><span class="nav-en">About Me</span></a></li>
         <li><a href="oc.html" class="nav-link"><span class="nav-zh">关于我的OC</span><span class="nav-en">About My OC</span></a></li>
-        <li><a href="oneshot.html" class="nav-link active"><span class="nav-en" style="margin-left:0; display:block; text-align:center;">Oneshot</span></a></li>
+        <li><a href="oneshot.html" class="nav-link active"><span class="nav-zh" style="font-family: 'DM Serif Display', serif;">Oneshot</span></a></li>
         <li class="nav-group">
           <button class="nav-group-toggle" aria-expanded="false"><span class="nav-zh">其他</span><span class="nav-en">More</span><svg class="arrow" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
           <ul class="nav-sub">
@@ -130,20 +120,20 @@
         </div>
         
         <div class="scroll-gallery">
-          <img src="niko-1.webp" onerror="this.style.display='none'">
-          <img src="niko-2.webp" onerror="this.style.display='none'">
-          <img src="niko-3.webp" onerror="this.style.display='none'">
-          <img src="niko-4.webp" onerror="this.style.display='none'">
-          <img src="niko-5.webp" onerror="this.style.display='none'">
-          <img src="niko-6.webp" onerror="this.style.display='none'">
-          <img src="niko-7.webp" onerror="this.style.display='none'">
-          <img src="niko-8.webp" onerror="this.style.display='none'">
-          <img src="niko-9.webp" onerror="this.style.display='none'">
-          <img src="niko-10.webp" onerror="this.style.display='none'">
-          <img src="niko-11.webp" onerror="this.style.display='none'">
-          <img src="niko-12.webp" onerror="this.style.display='none'">
-          <img src="niko-13.webp" onerror="this.style.display='none'">
-          <img src="niko-14.webp" onerror="this.style.display='none'">
+          <img src="niko-1.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-2.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-3.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-4.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-5.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-6.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-7.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-8.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-9.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-10.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-11.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-12.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-13.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-14.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
         </div>
         
         <div class="about-content" style="padding-top: 10px;">
@@ -168,7 +158,7 @@
         </div>
         
         <div class="scroll-gallery">
-          <img src="twm-1.webp" onerror="this.style.display='none'">
+          <img src="twm-1.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
         </div>
         
         <div class="about-content" style="padding-top: 10px;">
@@ -182,9 +172,14 @@
     </div>
   </main>
   
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" aria-label="关闭">×</button>
+    <img id="lightbox-img" src="" alt="全屏预览" onclick="event.stopPropagation()">
+  </div>
+
   <script src="main.js"></script>
   <script>
-    // 点击展开/返回时，保留原版 CSS 过渡的丝滑感
+    // 列表与详情丝滑切换
     function showDetail(id) {
       document.getElementById('listView').style.display = 'none';
       document.querySelectorAll('.detail-view').forEach(el => el.style.display = 'none');
@@ -195,6 +190,20 @@
       document.getElementById('detail-' + id).style.display = 'none';
       document.getElementById('listView').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 灯箱逻辑
+    function openLightbox(src) {
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightbox-img');
+      lbImg.src = src;
+      lb.style.display = 'flex';
+      setTimeout(() => lb.style.opacity = '1', 10);
+    }
+    function closeLightbox() {
+      const lb = document.getElementById('lightbox');
+      lb.style.opacity = '0';
+      setTimeout(() => lb.style.display = 'none', 300);
     }
   </script>
 </body>
