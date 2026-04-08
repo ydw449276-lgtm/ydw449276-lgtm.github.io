@@ -1,5 +1,5 @@
 /**
- * main.js — 沉疯的个人网站交互逻辑 (毫秒级精准变色版)
+ * main.js — 沉疯的个人网站交互逻辑 (文字精准变色抢救版)
  */
 
 "use strict";
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const addClass = newTheme === "dark" ? "is-dark" : "is-light";
       const removeClass = currentTheme === "dark" ? "is-dark" : "is-light";
 
-      // 🌟 第 1 步：0 毫秒！右上角按钮立刻换色
+      // 🌟 0 毫秒：右上角按钮光速换装
       themeToggle.classList.add(addClass);
       themeToggle.classList.remove(removeClass);
 
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         wave.classList.add("animate");
       });
 
-      // 🌟 第 2 步：50 毫秒！波浪起步是“弹射爆炸”速度，瞬间就砸到了左边，汉堡菜单秒切！
+      // 🌟 50 毫秒：波浪打到左上角，汉堡菜单无缝换装
       setTimeout(() => {
         const hamburger = document.getElementById("hamburger");
         if (hamburger) {
@@ -55,13 +55,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }, 50);
 
-      // 🌟 第 3 步：700 毫秒。波浪铺满全屏一半，文字大部队优雅变色
+      // 🌟 300 毫秒：波浪刚好扫过屏幕中间，文字瞬间优雅变色，告别隐身迷彩服！
       setTimeout(() => {
-        body.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-      }, 700);
+        try {
+          body.setAttribute("data-theme", newTheme);
+          localStorage.setItem("theme", newTheme);
+        } catch(err) {
+          console.error("Storage error:", err);
+        }
+      }, 300);
 
-      // 🌟 第 4 步：1600 毫秒。波浪彻底结束，无缝接管
+      // 🌟 1600 毫秒：波浪功成身退
       setTimeout(() => {
         body.style.transition = "none";
         body.style.backgroundColor = "";
@@ -226,13 +230,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!textToCopy) return;
 
       navigator.clipboard.writeText(textToCopy).then(() => {
-        
         btn.classList.add("is-copied");
-        
         setTimeout(() => {
           btn.classList.remove("is-copied");
         }, 2000);
-        
       }).catch(err => {
         console.error('复制失败: ', err);
         alert("浏览器权限限制，复制失败，请手动选择复制。");
