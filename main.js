@@ -1,5 +1,5 @@
 /**
- * main.js — 沉疯的个人网站交互逻辑 (究极波浪主题切换)
+ * main.js — 沉疯的个人网站交互逻辑 (究极波浪主题切换 + 一键复制邮箱)
  */
 
 "use strict";
@@ -24,30 +24,24 @@ document.addEventListener("DOMContentLoaded", () => {
       const currentTheme = body.getAttribute("data-theme");
       const newTheme = currentTheme === "light" ? "dark" : "light";
       
-      // 提取旧背景色固定到最底层，并让当前 body 变透明，以便露出背后的波浪
       const oldBg = getComputedStyle(body).backgroundColor;
       document.documentElement.style.backgroundColor = oldBg;
       body.style.backgroundColor = "transparent";
 
-      // 创建一个实体的波浪圆球
       const wave = document.createElement("div");
       wave.className = "theme-wave";
       wave.style.left = x + "px";
       wave.style.top = y + "px";
-      // 波浪的颜色就是即将切换的新主题颜色
       wave.style.backgroundColor = newTheme === "dark" ? "#121212" : "#F7F5F0";
       body.appendChild(wave);
 
-      // 触发波浪扩散动画
       requestAnimationFrame(() => {
         wave.classList.add("animate");
       });
 
-      // 立马切换主题数据，让文字颜色开始慢慢渐变，融入波浪
       body.setAttribute("data-theme", newTheme);
       localStorage.setItem("theme", newTheme);
 
-      // 当波浪刚好盖满全屏时 (600ms)，完成背景交接并清理战场
       setTimeout(() => {
         body.style.transition = "none";
         body.style.backgroundColor = "";
@@ -194,4 +188,40 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, { passive: true });
   }
+
+  /* ----------------------------------------------------------
+     7. 🌟 剪贴板复制逻辑（带绿勾反馈）
+  ---------------------------------------------------------- */
+  const copyBtns = document.querySelectorAll(".copy-btn");
+  copyBtns.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault(); // 阻止触发其他的跳转行为
+      e.stopPropagation(); // 阻止点到外层的其他框框
+      
+      const textToCopy = btn.getAttribute("data-copy");
+      if (!textToCopy) return;
+
+      // 写入系统剪贴板
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const iconCopy = btn.querySelector(".icon-copy");
+        const iconCheck = btn.querySelector(".icon-check");
+        
+        if (iconCopy && iconCheck) {
+          // 隐藏复制图标，显示绿勾
+          iconCopy.style.display = "none";
+          iconCheck.style.display = "block";
+          
+          // 1.5秒后自动换回来
+          setTimeout(() => {
+            iconCopy.style.display = "block";
+            iconCheck.style.display = "none";
+          }, 1500);
+        }
+      }).catch(err => {
+        console.error('复制失败: ', err);
+        alert("浏览器权限限制，复制失败，请手动选择复制。");
+      });
+    });
+  });
+
 });
