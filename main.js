@@ -1,5 +1,5 @@
 /**
- * main.js — 沉疯的个人网站交互逻辑 (波浪切换 + 复制魔法变形)
+ * main.js — 沉疯的个人网站交互逻辑 (优化了慢速波浪与果冻复制动画)
  */
 
 "use strict";
@@ -39,9 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
         wave.classList.add("animate");
       });
 
-      body.setAttribute("data-theme", newTheme);
-      localStorage.setItem("theme", newTheme);
+      // 🌟 配合变慢的 CSS 波浪，这里的文字变色时机推迟到了 500ms
+      setTimeout(() => {
+        body.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+      }, 500);
 
+      // 🌟 清理战场的时机也推迟到 1200ms，等 1.2 秒的波浪完全画完
       setTimeout(() => {
         body.style.transition = "none";
         body.style.backgroundColor = "";
@@ -54,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         });
         themeToggle.disabled = false;
-      }, 600);
+      }, 1200);
     });
   }
 
@@ -190,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ----------------------------------------------------------
-     7. 🌟 剪贴板复制逻辑（带丝滑变形与手绘绿勾动画）
+     7. 剪贴板复制逻辑
   ---------------------------------------------------------- */
   const copyBtns = document.querySelectorAll(".copy-btn");
   copyBtns.forEach(btn => {
@@ -203,10 +207,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       navigator.clipboard.writeText(textToCopy).then(() => {
         
-        // 这一句就像魔法棒，一点上，CSS里的变形和手绘动画就会自动触发
         btn.classList.add("is-copied");
         
-        // 让绿勾停留 2 秒，然后拿掉魔法棒，自动变回原来的复制图标
         setTimeout(() => {
           btn.classList.remove("is-copied");
         }, 2000);
