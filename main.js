@@ -1,5 +1,5 @@
 /**
- * main.js — 沉疯的个人网站交互逻辑 (极度放慢的优雅波浪 + 修复 Chrome 动画)
+ * main.js — 沉疯的个人网站交互逻辑 (极度精准的 VIP 变色版)
  */
 
 "use strict";
@@ -24,6 +24,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const currentTheme = body.getAttribute("data-theme");
       const newTheme = currentTheme === "light" ? "dark" : "light";
       
+      const addClass = newTheme === "dark" ? "is-dark" : "is-light";
+      const removeClass = currentTheme === "dark" ? "is-dark" : "is-light";
+
+      // 🌟 第 1 步：0 毫秒！你点按的瞬间，右上角按钮立刻换上新衣服，绝不犹豫！
+      themeToggle.classList.add(addClass);
+      themeToggle.classList.remove(removeClass);
+
       const oldBg = getComputedStyle(body).backgroundColor;
       document.documentElement.style.backgroundColor = oldBg;
       body.style.backgroundColor = "transparent";
@@ -39,19 +46,32 @@ document.addEventListener("DOMContentLoaded", () => {
         wave.classList.add("animate");
       });
 
-      // 🌟 因为波浪变慢到了 1.6 秒，所以变色时机推迟到了 700 毫秒（接近一半的时候变）
+      // 🌟 第 2 步：250 毫秒。波浪正好荡漾到左上角，汉堡菜单精准换衣！
+      setTimeout(() => {
+        const hamburger = document.getElementById("hamburger");
+        if (hamburger) {
+          hamburger.classList.add(addClass);
+          hamburger.classList.remove(removeClass);
+        }
+      }, 250);
+
+      // 🌟 第 3 步：700 毫秒。波浪基本盖满主要区域，全局文字优雅变色。
       setTimeout(() => {
         body.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
       }, 700);
 
-      // 🌟 彻底画完、清理残余的时机推迟到了 1600 毫秒 (1.6秒)
+      // 🌟 第 4 步：1600 毫秒。波浪彻底消失，卸下临时强制类，无缝接管全局。
       setTimeout(() => {
         body.style.transition = "none";
         body.style.backgroundColor = "";
         document.documentElement.style.backgroundColor = "";
         wave.remove();
         
+        themeToggle.classList.remove("is-dark", "is-light");
+        const hamburger = document.getElementById("hamburger");
+        if (hamburger) hamburger.classList.remove("is-dark", "is-light");
+
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             body.style.transition = "";
