@@ -1,5 +1,5 @@
 /**
- * main.js — 沉疯的个人网站交互逻辑 (解除封印：支持无延迟无限狂点版)
+ * main.js — 沉疯的个人网站交互逻辑 (带系统主题检测与完美记忆功能)
  */
 
 "use strict";
@@ -8,40 +8,47 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
 
   /* ----------------------------------------------------------
-     1. 实体波浪扩散切换深浅主题 (狂点叠加版)
+     1. 主题初始化逻辑：系统探测 + 历史记忆
   ---------------------------------------------------------- */
-  const themeToggle = document.getElementById("themeToggle");
-  let themeState = localStorage.getItem("theme") || "light";
+  let themeState = localStorage.getItem("theme");
+  
+  // 如果用户之前从来没点过按钮（第一次进网站）
+  if (!themeState) {
+    // 偷偷看一眼他手机系统的深浅设置
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    themeState = prefersDark ? "dark" : "light";
+  }
+  
+  // 帮网页穿上对应的初始衣服
   body.setAttribute("data-theme", themeState);
 
-  let waveCount = 0; // 🌟 新增：波浪计数器，用来管理你狂点时的多层波浪
+  /* ----------------------------------------------------------
+     2. 实体波浪扩散切换深浅主题 (狂点叠加版)
+  ---------------------------------------------------------- */
+  const themeToggle = document.getElementById("themeToggle");
+  let waveCount = 0; 
 
   if (themeToggle) {
     themeToggle.addEventListener("click", (e) => {
-      // 🚨 封印解除：删除了所有的 disabled 限制代码！想点多快点多快！
-      
       waveCount++;
       const currentWaveId = waveCount;
 
-      // 瞬间判断这一次点击应该切换到什么颜色
       themeState = themeState === "light" ? "dark" : "light";
       const newTheme = themeState;
       
       const addClass = newTheme === "dark" ? "is-dark" : "is-light";
       const removeClass = newTheme === "dark" ? "is-light" : "is-dark";
 
-      // 🌟 0 毫秒：右上角按钮光速换装
+      // 0 毫秒：右上角按钮光速换装
       themeToggle.classList.add(addClass);
       themeToggle.classList.remove(removeClass);
 
-      // 开启底层透明魔法，让多层波浪可以互相叠加展现
       if (body.style.backgroundColor !== "transparent") {
         const oldBg = newTheme === "dark" ? "#F7F5F0" : "#121212";
         document.documentElement.style.backgroundColor = oldBg;
         body.style.backgroundColor = "transparent";
       }
 
-      // 生成一个新的波浪
       const wave = document.createElement("div");
       wave.className = "theme-wave";
       wave.style.left = e.clientX + "px";
@@ -53,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         wave.classList.add("animate");
       });
 
-      // 🌟 50 毫秒：汉堡菜单换装
+      // 50 毫秒：汉堡菜单换装
       setTimeout(() => {
         const hamburger = document.getElementById("hamburger");
         if (hamburger) {
@@ -62,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }, 50);
 
-      // 🌟 300 毫秒：大部队文字变色
+      // 300 毫秒：大部队文字变色，并死死记住你的选择！
       setTimeout(() => {
         try {
           body.setAttribute("data-theme", newTheme);
@@ -72,11 +79,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }, 300);
 
-      // 🌟 1600 毫秒：当前这层波浪功成身退
+      // 1600 毫秒：波浪退散，打扫战场
       setTimeout(() => {
-        wave.remove(); // 删掉已经扩大到屏幕外的波浪
+        wave.remove(); 
         
-        // 🌟 核心防闪烁机制：只有当你停下手指不点了，才真正打扫战场恢复默认设置
         if (waveCount === currentWaveId) {
           body.style.transition = "none";
           body.style.backgroundColor = "";
@@ -97,7 +103,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ----------------------------------------------------------
-     2. 汉堡菜单 & 侧边栏
+     实时监听系统主题变化 (如果你开着网页时把手机调成黑夜模式)
+  ---------------------------------------------------------- */
+  if (window.matchMedia) {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+      // 只有在你没有“手动干预”过的情况下，才跟着系统一起变
+      if (!localStorage.getItem("theme")) {
+        themeState = e.matches ? "dark" : "light";
+        body.setAttribute("data-theme", themeState);
+      }
+    });
+  }
+
+  /* ----------------------------------------------------------
+     3. 汉堡菜单 & 侧边栏
   ---------------------------------------------------------- */
   const hamburger = document.getElementById("hamburger");
   const sidebar   = document.getElementById("sidebar");
@@ -130,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if(overlay) overlay.addEventListener("click", closeSidebar);
 
   /* ----------------------------------------------------------
-     3. "其他" 子菜单展开/收起
+     4. "其他" 子菜单展开/收起
   ---------------------------------------------------------- */
   const groupToggle = document.querySelector(".nav-group-toggle");
   if (groupToggle) {
@@ -144,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ----------------------------------------------------------
-     4. 页面 Reveal 动画
+     5. 页面 Reveal 动画
   ---------------------------------------------------------- */
   const revealTargets = document.querySelectorAll("[data-reveal], .about-block, .oc-section, .back-wrap");
   if (revealTargets.length > 0) {
@@ -174,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ----------------------------------------------------------
-     5. 页面跳转过渡动画
+     6. 页面跳转过渡动画
   ---------------------------------------------------------- */
   const cover = document.getElementById("transitionCover");
   if (cover) {
@@ -189,9 +208,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll("a[href]").forEach((link) => {
       const href = link.getAttribute("href");
-      if (!href || href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto")) return;
+      if (!href || href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto") || href.startsWith("javascript")) return;
 
       link.addEventListener("click", (e) => {
+        // 如果是 target="_blank" 的外链，不触发遮罩直接跳转
+        if (link.getAttribute("target") === "_blank") return;
+
         e.preventDefault();
         const target = link.href;
         cover.style.transition = "opacity 0.35s cubic-bezier(0.4, 0, 1, 1)";
@@ -202,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ----------------------------------------------------------
-     6. 内页线条动画 & 首页滚动 Hint
+     7. 内页线条动画 & 首页滚动 Hint
   ---------------------------------------------------------- */
   const innerHeader = document.querySelector(".inner-header[data-reveal]");
   if (innerHeader) {
@@ -228,7 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ----------------------------------------------------------
-     7. 剪贴板复制逻辑
+     8. 剪贴板复制逻辑
   ---------------------------------------------------------- */
   const copyBtns = document.querySelectorAll(".copy-btn");
   copyBtns.forEach(btn => {
