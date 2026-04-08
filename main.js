@@ -1,5 +1,5 @@
 /**
- * main.js — 沉疯的个人网站交互逻辑 (文字精准变色抢救版)
+ * main.js — 沉疯的个人网站交互逻辑 (解除封印：支持无延迟无限狂点版)
  */
 
 "use strict";
@@ -8,37 +8,44 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
 
   /* ----------------------------------------------------------
-     1. 实体波浪扩散切换深浅主题
+     1. 实体波浪扩散切换深浅主题 (狂点叠加版)
   ---------------------------------------------------------- */
   const themeToggle = document.getElementById("themeToggle");
-  const savedTheme = localStorage.getItem("theme") || "light";
-  body.setAttribute("data-theme", savedTheme);
+  let themeState = localStorage.getItem("theme") || "light";
+  body.setAttribute("data-theme", themeState);
+
+  let waveCount = 0; // 🌟 新增：波浪计数器，用来管理你狂点时的多层波浪
 
   if (themeToggle) {
     themeToggle.addEventListener("click", (e) => {
-      if (themeToggle.disabled) return;
-      themeToggle.disabled = true;
+      // 🚨 封印解除：删除了所有的 disabled 限制代码！想点多快点多快！
+      
+      waveCount++;
+      const currentWaveId = waveCount;
 
-      const x = e.clientX;
-      const y = e.clientY;
-      const currentTheme = body.getAttribute("data-theme");
-      const newTheme = currentTheme === "light" ? "dark" : "light";
+      // 瞬间判断这一次点击应该切换到什么颜色
+      themeState = themeState === "light" ? "dark" : "light";
+      const newTheme = themeState;
       
       const addClass = newTheme === "dark" ? "is-dark" : "is-light";
-      const removeClass = currentTheme === "dark" ? "is-dark" : "is-light";
+      const removeClass = newTheme === "dark" ? "is-light" : "is-dark";
 
       // 🌟 0 毫秒：右上角按钮光速换装
       themeToggle.classList.add(addClass);
       themeToggle.classList.remove(removeClass);
 
-      const oldBg = getComputedStyle(body).backgroundColor;
-      document.documentElement.style.backgroundColor = oldBg;
-      body.style.backgroundColor = "transparent";
+      // 开启底层透明魔法，让多层波浪可以互相叠加展现
+      if (body.style.backgroundColor !== "transparent") {
+        const oldBg = newTheme === "dark" ? "#F7F5F0" : "#121212";
+        document.documentElement.style.backgroundColor = oldBg;
+        body.style.backgroundColor = "transparent";
+      }
 
+      // 生成一个新的波浪
       const wave = document.createElement("div");
       wave.className = "theme-wave";
-      wave.style.left = x + "px";
-      wave.style.top = y + "px";
+      wave.style.left = e.clientX + "px";
+      wave.style.top = e.clientY + "px";
       wave.style.backgroundColor = newTheme === "dark" ? "#121212" : "#F7F5F0";
       body.appendChild(wave);
 
@@ -46,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         wave.classList.add("animate");
       });
 
-      // 🌟 50 毫秒：波浪打到左上角，汉堡菜单无缝换装
+      // 🌟 50 毫秒：汉堡菜单换装
       setTimeout(() => {
         const hamburger = document.getElementById("hamburger");
         if (hamburger) {
@@ -55,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }, 50);
 
-      // 🌟 300 毫秒：波浪刚好扫过屏幕中间，文字瞬间优雅变色，告别隐身迷彩服！
+      // 🌟 300 毫秒：大部队文字变色
       setTimeout(() => {
         try {
           body.setAttribute("data-theme", newTheme);
@@ -65,23 +72,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }, 300);
 
-      // 🌟 1600 毫秒：波浪功成身退
+      // 🌟 1600 毫秒：当前这层波浪功成身退
       setTimeout(() => {
-        body.style.transition = "none";
-        body.style.backgroundColor = "";
-        document.documentElement.style.backgroundColor = "";
-        wave.remove();
+        wave.remove(); // 删掉已经扩大到屏幕外的波浪
         
-        themeToggle.classList.remove("is-dark", "is-light");
-        const hamburger = document.getElementById("hamburger");
-        if (hamburger) hamburger.classList.remove("is-dark", "is-light");
+        // 🌟 核心防闪烁机制：只有当你停下手指不点了，才真正打扫战场恢复默认设置
+        if (waveCount === currentWaveId) {
+          body.style.transition = "none";
+          body.style.backgroundColor = "";
+          document.documentElement.style.backgroundColor = "";
+          
+          themeToggle.classList.remove("is-dark", "is-light");
+          const hamburger = document.getElementById("hamburger");
+          if (hamburger) hamburger.classList.remove("is-dark", "is-light");
 
-        requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            body.style.transition = "";
+            requestAnimationFrame(() => {
+              body.style.transition = "";
+            });
           });
-        });
-        themeToggle.disabled = false;
+        }
       }, 1600);
     });
   }
