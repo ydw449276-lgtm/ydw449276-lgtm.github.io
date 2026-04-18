@@ -7,7 +7,82 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ====== 增强版巨型双语标题 (完美适配手机与电脑) ====== */
+    .giant-hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 0 24px;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    /* 英文巨型字：硬朗、无衬线、全大写 */
+    .giant-en {
+      font-size: 6vw; 
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--ink);
+      margin: 0;
+      line-height: 1;
+      text-transform: uppercase;
+      font-family: 'Lato', sans-serif;
+    }
+
+    /* 名字部分：优雅、斜体、衬线 */
+    .name-highlight {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-weight: normal;
+      text-transform: none; 
+      padding-left: 10px;
+    }
+
+    /* 中文巨型字：优雅、衬线、带间距 */
+    .giant-zh {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 4.5vw;
+      font-weight: 300;
+      color: var(--ink);
+      margin-top: 10px;
+      letter-spacing: 0.2em;
+      opacity: 0.9;
+    }
+
+    /* 副标题：更加极简 */
+    .subtitle-info {
+      font-size: 1rem;
+      color: var(--ink);
+      opacity: 0.5;
+      margin-top: 40px;
+      letter-spacing: 2px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      text-transform: uppercase;
+    }
+
+    /* 手机端深度适配 */
+    @media (max-width: 768px) {
+      .giant-en { font-size: 11vw; }
+      .name-highlight { display: block; padding-left: 0; margin-top: 5px; }
+      .giant-zh { font-size: 8vw; margin-top: 15px; letter-spacing: 0.1em; }
+      .subtitle-info { font-size: 0.8rem; margin-top: 30px; gap: 10px; }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body class="page-home">
 
@@ -27,14 +102,9 @@
         <li><a href="index.html" class="nav-link active"><span class="nav-zh">主页</span><span class="nav-en">Home</span></a></li>
         <li><a href="about.html" class="nav-link"><span class="nav-zh">关于我</span><span class="nav-en">About Me</span></a></li>
         <li><a href="oc.html" class="nav-link"><span class="nav-zh">关于我的OC</span><span class="nav-en">About My OC</span></a></li>
-        
         <li><a href="oneshot.html" class="nav-link"><span class="nav-zh" style="font-family: 'DM Serif Display', serif;">Oneshot</span></a></li>
-        
         <li class="nav-group">
-          <button class="nav-group-toggle" aria-expanded="false">
-            <span class="nav-zh">其他</span><span class="nav-en">More</span>
-            <svg class="arrow" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          </button>
+          <button class="nav-group-toggle" aria-expanded="false"><span class="nav-zh">其他</span><span class="nav-en">More</span><svg class="arrow" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
           <ul class="nav-sub">
             <li><a href="https://github.com/ydw449276-lgtm" target="_blank" rel="noopener" class="nav-link sub"><span class="nav-zh">GitHub 主页</span><span class="nav-en">GitHub Profile</span></a></li>
             <li><a href="https://github.com/ydw449276-lgtm/ydw449276-lgtm.github.io" target="_blank" rel="noopener" class="nav-link sub"><span class="nav-zh">网站源码</span><span class="nav-en">Source Code</span></a></li>
@@ -53,12 +123,23 @@
       <div class="bg-blob blob1"></div>
       <div class="bg-blob blob2"></div>
     </div>
-    <section class="hero-text" id="heroText">
-      <div class="line-wrap"><p class="welcome-zh">Hi，我是沉疯/风，</p></div>
-      <div class="line-wrap"><p class="welcome-zh delay1">这是我在 Github 搭建的第一个个人网站</p></div>
-      <div class="line-wrap"><p class="welcome-en delay2">Hi, I'm Chenfeng —</p></div>
-      <div class="line-wrap"><p class="welcome-en delay3">this is my first personal website built on GitHub.</p></div>
+    
+    <section class="giant-hero-content" id="heroText">
+      <h1 class="giant-en">
+        HELLO, I'M <span class="name-highlight">Chenfeng</span>
+      </h1>
+      <h2 class="giant-zh">
+        你好，我是沉疯/风
+      </h2>
+      <p class="subtitle-info">
+        <span>Personal Website</span>
+        <span style="opacity: 0.3;">/</span>
+        <span>Independent Creator</span>
+        <span style="opacity: 0.3;">/</span>
+        <span>Pixel Art Lover</span>
+      </p>
     </section>
+
     <div class="scroll-hint" id="scrollHint" aria-hidden="true">
       <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span class="scroll-text-zh">向下滚动</span><span class="scroll-text-en">Scroll down</span>
