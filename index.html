@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400;900&display=swap" rel="stylesheet" />
   <style>
-    /* ====== 增强版巨型双语标题 (完美适配手机与电脑) ====== */
+    /* ====== 巨型双语标题 ====== */
     .giant-hero-content {
       position: relative;
       z-index: 10;
@@ -19,13 +19,12 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      padding: 0 24px;
+      padding: 0 20px;
       animation: fadeInDown 0.8s ease-out;
     }
 
-    /* 英文巨型字：硬朗、无衬线、全大写 */
     .giant-en {
-      font-size: 6vw; 
+      font-size: 5.5vw; 
       font-weight: 900;
       letter-spacing: -1px;
       color: var(--ink);
@@ -33,29 +32,28 @@
       line-height: 1;
       text-transform: uppercase;
       font-family: 'Lato', sans-serif;
+      white-space: nowrap; 
     }
 
-    /* 名字部分：优雅、斜体、衬线 */
     .name-highlight {
       font-family: 'DM Serif Display', serif;
       font-style: italic;
       font-weight: normal;
       text-transform: none; 
-      padding-left: 10px;
+      padding-left: 8px;
     }
 
-    /* 中文巨型字：优雅、衬线、带间距 */
     .giant-zh {
       font-family: 'Noto Serif SC', serif;
-      font-size: 4.5vw;
+      font-size: 4vw;
       font-weight: 300;
       color: var(--ink);
-      margin-top: 10px;
+      margin-top: 15px;
       letter-spacing: 0.2em;
       opacity: 0.9;
+      white-space: nowrap;
     }
 
-    /* 副标题：更加极简 */
     .subtitle-info {
       font-size: 1rem;
       color: var(--ink);
@@ -70,12 +68,46 @@
       text-transform: uppercase;
     }
 
-    /* 手机端深度适配 */
+    /* ====== 灵魂特效：跟随鼠标/触控的巨型黑球 ====== */
+    .cursor-ball {
+      position: fixed;
+      top: 0; 
+      left: 0;
+      width: 140px; 
+      height: 140px;
+      background-color: var(--ink); 
+      color: var(--bg-color);       
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      pointer-events: none; /* 绝对不能少！防止球挡住按钮点击 */
+      z-index: 9999;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor-ball span {
+      transition: opacity 0.3s ease;
+    }
+
+    /* ====== 手机端极限适配 ====== */
     @media (max-width: 768px) {
-      .giant-en { font-size: 11vw; }
-      .name-highlight { display: block; padding-left: 0; margin-top: 5px; }
-      .giant-zh { font-size: 8vw; margin-top: 15px; letter-spacing: 0.1em; }
-      .subtitle-info { font-size: 0.8rem; margin-top: 30px; gap: 10px; }
+      .giant-en { font-size: 8.5vw; } 
+      .name-highlight { padding-left: 5px; } 
+      .giant-zh { font-size: 6vw; margin-top: 15px; letter-spacing: 0.1em; }
+      .subtitle-info { font-size: 0.75rem; margin-top: 30px; gap: 10px; }
+      
+      /* 手机端为球体瘦身，防止遮挡全屏 */
+      .cursor-ball {
+        width: 80px;
+        height: 80px;
+        font-size: 0.75rem; /* 文字变小点 */
+        letter-spacing: 1px;
+      }
     }
 
     @keyframes fadeInDown {
@@ -85,6 +117,8 @@
   </style>
 </head>
 <body class="page-home">
+
+  <div class="cursor-ball" id="cursorBall"><span id="cursorWord">探索</span></div>
 
   <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
     <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -154,5 +188,53 @@
   </section>
 
   <script src="main.js"></script>
+
+  <script>
+    const ball = document.getElementById('cursorBall');
+    const wordEl = document.getElementById('cursorWord');
+    
+    // 自定义球里面的轮播文字
+    const words = ['探索', '创意', '像素', '热爱'];
+    let wordIndex = 0;
+
+    setInterval(() => {
+      wordIndex = (wordIndex + 1) % words.length;
+      wordEl.style.opacity = 0; 
+      setTimeout(() => {
+        wordEl.textContent = words[wordIndex];
+        wordEl.style.opacity = 1; 
+      }, 300); 
+    }, 2500);
+
+    // 平滑跟随的物理计算
+    // 初始位置设在屏幕正中间
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ballX = mouseX;
+    let ballY = mouseY;
+
+    // 电脑端鼠标移动监听
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    // 手机端触摸滑动监听 (passive: true 保证手机不卡顿)
+    document.addEventListener('touchmove', (e) => {
+      mouseX = e.touches[0].clientX;
+      mouseY = e.touches[0].clientY;
+    }, { passive: true });
+
+    function animateBall() {
+      let distX = mouseX - ballX;
+      let distY = mouseY - ballY;
+      ballX += distX * 0.15;
+      ballY += distY * 0.15;
+      
+      ball.style.transform = `translate(calc(${ballX}px - 50%), calc(${ballY}px - 50%))`;
+      requestAnimationFrame(animateBall);
+    }
+    animateBall();
+  </script>
 </body>
 </html>
