@@ -149,16 +149,21 @@ document.addEventListener("DOMContentLoaded", () => {
   if(overlay) overlay.addEventListener("click", closeSidebar);
 
   /* ----------------------------------------------------------
-     4. "其他" 子菜单展开/收起
+     4. 子菜单展开/收起 (已升级：支持多个下拉菜单)
   ---------------------------------------------------------- */
-  const groupToggle = document.querySelector(".nav-group-toggle");
-  if (groupToggle) {
-    const subMenu = groupToggle.nextElementSibling;
-    groupToggle.addEventListener("click", () => {
-      const isExpanded = groupToggle.getAttribute("aria-expanded") === "true";
-      groupToggle.setAttribute("aria-expanded", !isExpanded);
-      if (isExpanded) subMenu.classList.remove("is-open");
-      else subMenu.classList.add("is-open");
+  const groupToggles = document.querySelectorAll(".nav-group-toggle");
+  if (groupToggles.length > 0) {
+    groupToggles.forEach(toggle => {
+      const subMenu = toggle.nextElementSibling;
+      toggle.addEventListener("click", () => {
+        const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", !isExpanded);
+        if (isExpanded) {
+          subMenu.classList.remove("is-open");
+        } else {
+          subMenu.classList.add("is-open");
+        }
+      });
     });
   }
 
