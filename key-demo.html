@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oneshot · 沉疯</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    /* 卡片与布局 */
+    .character-card { cursor: pointer; transition: all 0.3s ease; }
+    .avatar-icon { width: 50px; height: 50px; margin-right: 16px; image-rendering: pixelated; border-radius: 6px; object-fit: cover; }
+    .detail-view { display: none; animation: fadeIn 0.4s ease; padding-bottom: 50px; }
+    .detail-header { text-align: center; margin-bottom: 20px; }
+    .detail-avatar { width: 128px; height: 128px; image-rendering: pixelated; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+    .brief-intro { font-size: 1.1rem; font-weight: 500; text-align: center; margin: 10px 0 25px; color: var(--accent); }
+    
+    /* 完美自适应画廊 */
+    .scroll-gallery { display: flex; overflow-x: auto; gap: 12px; padding: 10px 5px 25px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+    .scroll-gallery::-webkit-scrollbar { height: 4px; }
+    .scroll-gallery::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 10px; }
+    .scroll-gallery img { height: 200px; width: auto; max-width: 90vw; object-fit: cover; border-radius: 8px; scroll-snap-align: center; flex-shrink: 0; border: 1px solid var(--border-color); image-rendering: pixelated; background: rgba(128,128,128,0.05); }
+    
+    /* 点击放大的交互样式 */
+    .clickable-img { cursor: zoom-in; transition: filter 0.2s; }
+    .clickable-img:active { filter: brightness(0.7); }
+    
+    /* 全屏预览灯箱 (Lightbox) */
+    .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+    .lightbox img { max-width: 95vw; max-height: 85vh; object-fit: contain; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); image-rendering: pixelated; }
+    .lightbox-close { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.2); color: #FFF; font-size: 2rem; cursor: pointer; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10000; transition: all 0.2s; }
+    .lightbox-close:hover { background: rgba(255,255,255,0.1); transform: scale(1.1); }
+    
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="page-inner">
+
+  <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+    <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+  </button>
+  <button class="hamburger" id="hamburger" aria-label="菜单 / Menu" aria-expanded="false"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+
+  <nav class="sidebar" id="sidebar" aria-hidden="true">
+    <div class="sidebar-inner">
+      <div class="sidebar-logo"><span class="zh">沉疯</span><span class="en">Chenfeng</span></div>
+      <ul class="sidebar-nav">
+        <li><a href="index.html" class="nav-link"><span class="nav-zh">主页</span><span class="nav-en">Home</span></a></li>
+        <li><a href="about.html" class="nav-link"><span class="nav-zh">关于我</span><span class="nav-en">About Me</span></a></li>
+        <li><a href="oc.html" class="nav-link"><span class="nav-zh">关于我的OC</span><span class="nav-en">About My OC</span></a></li>
+        <li><a href="oneshot.html" class="nav-link active"><span class="nav-zh" style="font-family: 'DM Serif Display', serif;">Oneshot</span></a></li>
+        
+        <li class="nav-group">
+          <button class="nav-group-toggle" aria-expanded="false">
+            <span class="nav-zh">有意思的东西</span><span class="nav-en">Fun Stuff</span>
+            <svg class="arrow" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <ul class="nav-sub">
+            <li><a href="key-demo.html" class="nav-link sub"><span class="nav-zh">卡密演示</span><span class="nav-en">Key Demo</span></a></li>
+          </ul>
+        </li>
+
+        <li class="nav-group">
+          <button class="nav-group-toggle" aria-expanded="false"><span class="nav-zh">其他</span><span class="nav-en">More</span><svg class="arrow" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+          <ul class="nav-sub">
+            <li><a href="https://github.com/ydw449276-lgtm" target="_blank" rel="noopener" class="nav-link sub"><span class="nav-zh">GitHub 主页</span><span class="nav-en">GitHub Profile</span></a></li>
+            <li><a href="https://github.com/ydw449276-lgtm/ydw449276-lgtm.github.io" target="_blank" rel="noopener" class="nav-link sub"><span class="nav-zh">网站源码</span><span class="nav-en">Source Code</span></a></li>
+            <li><a href="contact.html" class="nav-link sub"><span class="nav-zh">联系我</span><span class="nav-en">Contact</span></a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="sidebar-footer"><span>© 2026 沉疯 · GitHub Pages</span></div>
+    </div>
+  </nav>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="page-transition-cover" id="transitionCover"></div>
+
+  <main class="inner-page">
+    <div class="inner-container oc-container">
+      
+      <div id="listView">
+        <header class="inner-header" data-reveal>
+          <h1 class="page-title"><span class="title-en" style="font-size: 2.2rem; margin-left: 0;">Oneshot</span></h1>
+          <div class="title-line"></div>
+        </header>
+
+        <section class="oc-section" data-reveal>
+          <h2 class="oc-section-title">角色 / Characters</h2>
+          <div class="oc-grid">
+            <div class="oc-item email-card character-card" onclick="showDetail('twm')">
+              <div class="email-info" style="flex-direction: row; align-items: center;">
+                <img src="twm-avatar.webp" class="avatar-icon" alt="TWM">
+                <span class="oc-label" style="margin-bottom:0; color:var(--ink);">The World Machine</span>
+              </div>
+            </div>
+            <div class="oc-item email-card character-card" onclick="showDetail('niko')">
+              <div class="email-info" style="flex-direction: row; align-items: center;">
+                <img src="niko-avatar.webp" class="avatar-icon" alt="Niko">
+                <span class="oc-label" style="margin-bottom:0; color:var(--ink);">Niko</span>
+              </div>
+            </div>
+
+            <div class="oc-item email-card character-card" style="grid-column: 1 / -1; cursor: pointer;" onclick="window.open('https://store.steampowered.com/app/420530/OneShot/', '_blank')">
+              <div class="email-info" style="flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 15px 0;">
+                <span class="oc-label" style="margin-bottom: 5px; font-size: 1.15rem; color: var(--ink);">它真的是一款好游戏 😔</span>
+                <span class="oc-value" style="font-size: 0.9rem; color: var(--ink); opacity: 0.6;">It really is a great game 😔</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <section class="oc-section" data-reveal>
+          <h2 class="oc-section-title">关于游戏 / About The Game</h2>
+          <div class="about-content" style="padding-top: 10px;">
+            <article class="about-block">
+              <p class="text-zh">《OneShot》是一款由 Future Cat 开发的超现实主义、俯视角的解谜冒险独立游戏。游戏的核心特色在于其极具颠覆性的“打破第四面墙”机制（元游戏元素）——游戏不仅仅发生在程序内部，系统会通过生成实体文件、修改电脑壁纸、弹出提示框等方式，与屏幕前的玩家产生直接交互。<br><br>在这个即将凋零的世界里，玩家将扮演“神明”本身，引导着名为 Niko 的猫耳孩子。Niko 携带着象征“太阳”的发光灯泡，穿梭于荒芜的土地，你们的最终目标是抵达高塔，将阳光重新归还给这个世界。</p>
+              <p class="text-en">OneShot is a surreal top-down puzzle/adventure indie game developed by Future Cat. Its core feature is a highly subversive "fourth-wall-breaking" mechanic (meta-gaming elements) — the game extends beyond the program itself, interacting directly with the player by generating physical files, changing desktop wallpapers, and popping up system dialogs.<br><br>In this dying world, the player acts as a "God," guiding a cat-like child named Niko. Carrying a glowing lightbulb that symbolizes the "Sun," Niko traverses the barren lands. Your ultimate goal is to reach the towering spire and return the sunlight to this world.</p>
+            </article>
+          </div>
+        </section>
+
+        <div class="back-wrap" data-reveal>
+          <a href="index.html" class="btn-back"><span>← </span><span class="btn-zh">返回主页</span><span class="btn-en">Back to Home</span></a>
+        </div>
+
+      </div>
+
+      <div id="detail-niko" class="detail-view">
+        <div class="back-wrap" style="margin-bottom: 30px; text-align: left;">
+          <a href="javascript:void(0)" class="btn-back" onclick="hideDetail('niko')">
+            <span>← </span><span class="btn-zh">返回列表</span><span class="btn-en">Back to List</span>
+          </a>
+        </div>
+
+        <div class="detail-header">
+          <img src="niko-avatar.webp" class="detail-avatar" alt="Niko">
+          <h2 style="font-family:'DM Serif Display',serif; margin-bottom: 5px;">Niko</h2>
+          <div class="brief-intro"><span class="zh">被选中的救世主</span> <span class="en">(The Messiah)</span></div>
+        </div>
+        
+        <div class="scroll-gallery">
+          <img src="niko-1.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-2.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-3.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-4.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-5.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-6.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-7.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-8.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-9.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-10.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-11.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-12.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-13.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+          <img src="niko-14.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        </div>
+        
+        <div class="about-content" style="padding-top: 10px;">
+          <article class="about-block">
+            <p class="text-zh">Niko 是《OneShot》的绝对主角。他们长着类似猫耳的头发，拥有一双明亮的金色大眼睛，总是戴着一顶宽大的棕色软帽，围着一条长长的蓝色围巾。尽管外观极像一只小猫，而且有时会发出类似猫咪的声音，但 Niko 始终坚称自己是人类。<br><br>作为被赋予“救世主”头衔的孩子，Niko 担负着将太阳送往塔顶的重任。Niko 非常善良、充满关怀，并且是游戏中唯一能感知并直接与“玩家”（你）对话的角色。Niko 最喜欢的食物是妈妈亲手做的榛子煎饼（Pancakes）。</p>
+            <p class="text-en">Niko is the main protagonist of OneShot. They have cat-like hair tips, bright yellow eyes, and always wear a large brown hat and a long blue scarf. Despite looking very much like a cat and occasionally making cat-like noises, Niko insists they are a person.<br><br>As the chosen "Messiah," Niko is tasked with carrying the sun to the top of the spire. Niko is kind, caring, and the only character in the game who is aware of and can speak directly to the "Player" (you). Niko's favorite food is their mother's homemade hazelnut pancakes.</p>
+          </article>
+        </div>
+      </div>
+
+      <div id="detail-twm" class="detail-view">
+        <div class="back-wrap" style="margin-bottom: 30px; text-align: left;">
+          <a href="javascript:void(0)" class="btn-back" onclick="hideDetail('twm')">
+            <span>← </span><span class="btn-zh">返回列表</span><span class="btn-en">Back to List</span>
+          </a>
+        </div>
+
+        <div class="detail-header">
+          <img src="twm-avatar.webp" class="detail-avatar" alt="TWM">
+          <h2 style="font-family:'DM Serif Display',serif; margin-bottom: 5px;">The World Machine</h2>
+          <div class="brief-intro"><span class="zh">维持宇宙的底层引擎</span> <span class="en">(The Entity)</span></div>
+        </div>
+        
+        <div class="scroll-gallery">
+          <img src="twm-1.webp" class="clickable-img" onclick="openLightbox(this.src)" onerror="this.style.display='none'">
+        </div>
+        
+        <div class="about-content" style="padding-top: 10px;">
+          <article class="about-block">
+            <p class="text-zh">世界机器（The World Machine），也被称为“实体”，是负责模拟和维持整个《OneShot》世界运行的底层程序。它通常以一台带有发光方形显示器的老式计算机形象出现，有时也会因为逻辑崩坏，借用 Niko 的外表呈现出带有代码乱码的紫色形态。<br><br>由于自身的程序逻辑产生了无法调和的冲突，它陷入了深深的绝望，认为这个世界已不值得被拯救，从而生成了足以摧毁世界的方形乱码（方块）。但在游戏的夏至（Solstice）结局中，通过与玩家和 Niko 的真挚交流，它最终找回了自我，接受了自身的局限，并被成功“驯服”。</p>
+            <p class="text-en">The World Machine, also known as the Entity, is the underlying program responsible for simulating and maintaining the entire world of OneShot. It usually appears as an old computer with a glowing square monitor, or sometimes, due to logical corruption, takes on Niko's appearance in a purple, glitchy form.<br><br>Driven to despair by irreconcilable conflicts in its own programming logic, it believed the world was not worth saving and generated destructive square glitches to erase it. However, in the Solstice ending, through genuine interaction with the Player and Niko, it eventually finds itself, accepts its limitations, and is successfully "tamed."</p>
+          </article>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" aria-label="关闭">×</button>
+    <img id="lightbox-img" src="" alt="全屏预览" onclick="event.stopPropagation()">
+  </div>
+
+  <script src="main.js"></script>
+  <script>
+    // 列表与详情切换
+    function showDetail(id) {
+      document.getElementById('listView').style.display = 'none';
+      document.querySelectorAll('.detail-view').forEach(el => el.style.display = 'none');
+      document.getElementById('detail-' + id).style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function hideDetail(id) {
+      document.getElementById('detail-' + id).style.display = 'none';
+      document.getElementById('listView').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 灯箱逻辑
+    function openLightbox(src) {
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightbox-img');
+      lbImg.src = src;
+      lb.style.display = 'flex';
+      setTimeout(() => lb.style.opacity = '1', 10);
+    }
+    function closeLightbox() {
+      const lb = document.getElementById('lightbox');
+      lb.style.opacity = '0';
+      setTimeout(() => lb.style.display = 'none', 300);
+    }
+  </script>
+</body>
+</html>
