@@ -68,7 +68,15 @@
       <section class="oc-section" data-reveal id="keyBox">
         <h2 class="oc-section-title" style="margin-bottom: 20px;">请输入授权卡密 / Enter Access Key</h2>
         <div class="oc-item" style="padding: 30px; gap: 20px; align-items: stretch;">
-          <input type="text" id="keyInput" placeholder="在此粘贴 32 位验证码..." style="padding: 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font-family: monospace; outline: none; font-size: 1rem;">
+          <div style="display: flex; gap: 10px; width: 100%;">
+            <input type="text" id="keyInput" placeholder="在此粘贴 32 位验证码..." style="flex: 1; padding: 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font-family: monospace; outline: none; font-size: 1rem;">
+            <button id="pasteBtn" class="copy-btn" title="点击粘贴" style="flex-shrink: 0; width: 48px; height: 48px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg-card); display: flex; align-items: center; justify-content: center; color: var(--ink-3); transition: all 0.3s;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+              </svg>
+            </button>
+          </div>
           <button id="verifyBtn" class="btn-back" style="justify-content: center; width: 100%; border-color: var(--accent); color: var(--accent); font-weight: bold; font-size: 1rem;">验证进入</button>
         </div>
       </section>
@@ -88,24 +96,45 @@
   <script src="main.js"></script>
   <script>
     const getBtn = document.getElementById('getBtn');
+    const pasteBtn = document.getElementById('pasteBtn');
     const verifyBtn = document.getElementById('verifyBtn');
     const input = document.getElementById('keyInput');
     const keyBox = document.getElementById('keyBox');
     const msg = document.getElementById('hiddenMessage');
     let realKey = "";
 
-    // 按钮悬浮动画
+    // 钥匙悬浮
     getBtn.addEventListener('mouseenter', () => getBtn.style.transform = 'scale(1.1) rotate(15deg)');
     getBtn.addEventListener('mouseleave', () => getBtn.style.transform = 'scale(1) rotate(0)');
 
+    // 生成并悄悄塞进剪切板
     getBtn.onclick = () => {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       let res = '';
       for (let i = 0; i < 32; i++) res += chars.charAt(Math.floor(Math.random() * chars.length));
       realKey = res;
-      alert("你发现了一串隐秘的钥匙，请复制它：\n\n" + res);
+      
+      navigator.clipboard.writeText(res).then(() => {
+        alert("剪切板好像多了什么东西喵~");
+      }).catch(() => {
+        prompt("剪切板好像多了什么东西喵~ (浏览器拦截了自动写入，请手动复制)", res);
+      });
     };
 
+    // 一键粘贴功能
+    pasteBtn.onclick = async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        input.value = text;
+        // 瞬间变色反馈
+        pasteBtn.style.color = 'var(--accent)';
+        setTimeout(() => pasteBtn.style.color = 'var(--ink-3)', 500);
+      } catch (err) {
+        alert("读取剪切板失败，请手动粘贴喵~");
+      }
+    };
+
+    // 验证逻辑
     verifyBtn.onclick = () => {
       if (!input.value.trim()) {
         alert("卡密不能为空哦！");
@@ -115,7 +144,7 @@
         keyBox.style.display = 'none';
         msg.style.display = 'block';
       } else {
-        alert("卡密无效或错误！随便填可是进不去的哦~");
+        alert("卡密无效或错误！乱填可是进不去的喵~");
       }
     };
   </script>
