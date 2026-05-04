@@ -82,7 +82,10 @@
       </section>
 
       <div id="hiddenMessage" style="display: none; text-align: center; padding: 60px 0; animation: fadeIn 0.8s ease;">
-        <h2 style="font-family: 'Noto Serif SC', serif; font-size: 2.5rem; color: var(--accent);">什么也没有喵~</h2>
+        <h2 style="font-family: 'Noto Serif SC', serif; font-size: 2.5rem; color: var(--accent); margin-bottom: 40px;">什么也没有喵~</h2>
+        <button id="resetBtn" class="btn-back" style="margin: 0 auto;">
+          <span>↺ </span><span class="btn-zh">返回上一页</span><span class="btn-en">Try Again</span>
+        </button>
       </div>
 
       <div class="back-wrap" data-reveal>
@@ -98,16 +101,15 @@
     const getBtn = document.getElementById('getBtn');
     const pasteBtn = document.getElementById('pasteBtn');
     const verifyBtn = document.getElementById('verifyBtn');
+    const resetBtn = document.getElementById('resetBtn'); // 获取新增加的重置按钮
     const input = document.getElementById('keyInput');
     const keyBox = document.getElementById('keyBox');
     const msg = document.getElementById('hiddenMessage');
     let realKey = "";
 
-    // 钥匙悬浮
     getBtn.addEventListener('mouseenter', () => getBtn.style.transform = 'scale(1.1) rotate(15deg)');
     getBtn.addEventListener('mouseleave', () => getBtn.style.transform = 'scale(1) rotate(0)');
 
-    // 生成并悄悄塞进剪切板
     getBtn.onclick = () => {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       let res = '';
@@ -121,12 +123,10 @@
       });
     };
 
-    // 一键粘贴功能
     pasteBtn.onclick = async () => {
       try {
         const text = await navigator.clipboard.readText();
         input.value = text;
-        // 瞬间变色反馈
         pasteBtn.style.color = 'var(--accent)';
         setTimeout(() => pasteBtn.style.color = 'var(--ink-3)', 500);
       } catch (err) {
@@ -134,7 +134,6 @@
       }
     };
 
-    // 验证逻辑
     verifyBtn.onclick = () => {
       if (!input.value.trim()) {
         alert("卡密不能为空哦！");
@@ -146,6 +145,13 @@
       } else {
         alert("卡密无效或错误！乱填可是进不去的喵~");
       }
+    };
+
+    // 新增：点击返回上一页，恢复初始状态
+    resetBtn.onclick = () => {
+      msg.style.display = 'none';      // 隐藏成功提示
+      keyBox.style.display = 'block';  // 重新显示输入框
+      input.value = '';                // 清空刚才填写的卡密
     };
   </script>
 </body>
