@@ -8,6 +8,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  
+  <script type="importmap">
+    {
+      "imports": {
+        "animejs": "https://esm.sh/animejs@next"
+      }
+    }
+  </script>
+
   <style>
     /* 卡片与布局 */
     .character-card { cursor: pointer; transition: all 0.3s ease; }
@@ -17,23 +26,56 @@
     .detail-avatar { width: 128px; height: 128px; image-rendering: pixelated; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
     .brief-intro { font-size: 1.1rem; font-weight: 500; text-align: center; margin: 10px 0 25px; color: var(--accent); }
     
-    /* 完美自适应画廊 */
+    /* 画廊灯箱等样式 */
     .scroll-gallery { display: flex; overflow-x: auto; gap: 12px; padding: 10px 5px 25px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
     .scroll-gallery::-webkit-scrollbar { height: 4px; }
     .scroll-gallery::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 10px; }
     .scroll-gallery img { height: 200px; width: auto; max-width: 90vw; object-fit: cover; border-radius: 8px; scroll-snap-align: center; flex-shrink: 0; border: 1px solid var(--border-color); image-rendering: pixelated; background: rgba(128,128,128,0.05); }
-    
-    /* 点击放大的交互样式 */
     .clickable-img { cursor: zoom-in; transition: filter 0.2s; }
     .clickable-img:active { filter: brightness(0.7); }
-    
-    /* 全屏预览灯箱 (Lightbox) */
     .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
     .lightbox img { max-width: 95vw; max-height: 85vh; object-fit: contain; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); image-rendering: pixelated; }
     .lightbox-close { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.2); color: #FFF; font-size: 2rem; cursor: pointer; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10000; transition: all 0.2s; }
     .lightbox-close:hover { background: rgba(255,255,255,0.1); transform: scale(1.1); }
-    
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ========================================================== */
+    /* === Anime.js 动态布局网格核心样式 (这4个状态将被不断轮换) === */
+    /* ========================================================== */
+    .layout-container {
+      display: grid;
+      gap: 15px;
+      width: 100%;
+      /* 保证在动画重组时内容不会溢出卡片 */
+    }
+    
+    .layout-container .oc-item {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* 状态 1: 两列并排，底部一整条 (这是你之前的默认排版) */
+    .layout-container[data-grid="1"] { grid-template-columns: 1fr 1fr; }
+    .layout-container[data-grid="1"] .oc-item:nth-child(3) { grid-column: 1 / -1; }
+
+    /* 状态 2: 三列平分并排展示 */
+    .layout-container[data-grid="2"] { grid-template-columns: 1fr 1fr 1.5fr; }
+
+    /* 状态 3: 单列垂直堆叠 (从上到下依次排开) */
+    .layout-container[data-grid="3"] { grid-template-columns: 1fr; }
+
+    /* 状态 4: 左侧一大块(占据两行高度)，右侧两小块 */
+    .layout-container[data-grid="4"] { grid-template-columns: 2fr 1fr; }
+    .layout-container[data-grid="4"] .oc-item:nth-child(1) { grid-row: 1 / span 2; }
+
+    /* 手机端防炸版适配：为了保证手机上能看清，精简网格变化 */
+    @media (max-width: 768px) {
+      .layout-container[data-grid="1"], .layout-container[data-grid="2"] { grid-template-columns: 1fr; }
+      .layout-container[data-grid="3"], .layout-container[data-grid="4"] { grid-template-columns: 1fr 1fr; }
+      .layout-container[data-grid="3"] .oc-item:nth-child(3), .layout-container[data-grid="4"] .oc-item:nth-child(3) { grid-column: 1 / -1; }
+    }
   </style>
 </head>
 <body class="page-inner">
@@ -52,17 +94,6 @@
         <li><a href="about.html" class="nav-link"><span class="nav-zh">关于我</span><span class="nav-en">About Me</span></a></li>
         <li><a href="oc.html" class="nav-link"><span class="nav-zh">关于我的OC</span><span class="nav-en">About My OC</span></a></li>
         <li><a href="oneshot.html" class="nav-link active"><span class="nav-zh" style="font-family: 'DM Serif Display', serif;">Oneshot</span></a></li>
-        
-        <li class="nav-group">
-          <button class="nav-group-toggle" aria-expanded="false">
-            <span class="nav-zh">有意思的东西</span><span class="nav-en">Fun Stuff</span>
-            <svg class="arrow" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          </button>
-          <ul class="nav-sub">
-            <li><a href="key-demo.html" class="nav-link sub"><span class="nav-zh">卡密演示</span><span class="nav-en">Key Demo</span></a></li>
-          </ul>
-        </li>
-
         <li class="nav-group">
           <button class="nav-group-toggle" aria-expanded="false"><span class="nav-zh">其他</span><span class="nav-en">More</span><svg class="arrow" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
           <ul class="nav-sub">
@@ -72,7 +103,13 @@
           </ul>
         </li>
       </ul>
-      <div class="sidebar-footer"><span>© 2026 沉疯 · GitHub Pages</span></div>
+      <div class="sidebar-footer">
+        <span>© 2026 沉疯 · GitHub Pages</span>
+        <div style="margin-top: 8px; font-size: 0.8rem; opacity: 0.7;">
+          <span id="busuanzi_container_site_pv" style="display:none">👀 访问量: <span id="busuanzi_value_site_pv"></span> 次</span><br>
+          <span id="busuanzi_container_site_uv" style="display:none">🚶 访客数: <span id="busuanzi_value_site_uv"></span> 人</span>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -90,13 +127,16 @@
 
         <section class="oc-section" data-reveal>
           <h2 class="oc-section-title">角色 / Characters</h2>
-          <div class="oc-grid">
+          
+          <div class="oc-grid layout-container" data-grid="1">
+            
             <div class="oc-item email-card character-card" onclick="showDetail('twm')">
               <div class="email-info" style="flex-direction: row; align-items: center;">
                 <img src="twm-avatar.webp" class="avatar-icon" alt="TWM">
                 <span class="oc-label" style="margin-bottom:0; color:var(--ink);">The World Machine</span>
               </div>
             </div>
+            
             <div class="oc-item email-card character-card" onclick="showDetail('niko')">
               <div class="email-info" style="flex-direction: row; align-items: center;">
                 <img src="niko-avatar.webp" class="avatar-icon" alt="Niko">
@@ -104,7 +144,7 @@
               </div>
             </div>
 
-            <div class="oc-item email-card character-card" style="grid-column: 1 / -1; cursor: pointer;" onclick="window.open('https://store.steampowered.com/app/420530/OneShot/', '_blank')">
+            <div class="oc-item email-card character-card" style="cursor: pointer; padding: 0; background: rgba(128,128,128,0.05);" onclick="window.open('https://store.steampowered.com/app/420530/OneShot/', '_blank')">
               <div class="email-info" style="flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 15px 0;">
                 <span class="oc-label" style="margin-bottom: 5px; font-size: 1.15rem; color: var(--ink);">它真的是一款好游戏 😔</span>
                 <span class="oc-value" style="font-size: 0.9rem; color: var(--ink); opacity: 0.6;">It really is a great game 😔</span>
@@ -202,8 +242,9 @@
   </div>
 
   <script src="main.js"></script>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
   <script>
-    // 列表与详情切换
     function showDetail(id) {
       document.getElementById('listView').style.display = 'none';
       document.querySelectorAll('.detail-view').forEach(el => el.style.display = 'none');
@@ -215,8 +256,6 @@
       document.getElementById('listView').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
-    // 灯箱逻辑
     function openLightbox(src) {
       const lb = document.getElementById('lightbox');
       const lbImg = document.getElementById('lightbox-img');
@@ -229,6 +268,37 @@
       lb.style.opacity = '0';
       setTimeout(() => lb.style.display = 'none', 300);
     }
+  </script>
+
+  <script type="module">
+    // 从刚才我们在 <head> 里配置的 importmap 中抓取最新版 animejs
+    import { createLayout, stagger } from 'animejs';
+
+    // 绑定到包裹着你三个卡片的父容器上
+    const layout = createLayout('.layout-container');
+    let i = 0;
+
+    function animateLayout() {
+      // 启动更新循环
+      return layout.update(({ root }) => {
+        // 让 CSS 选择器的 [data-grid="X"] 在 1, 2, 3, 4 之间无限循环
+        root.dataset.grid = (++i % 4) + 1;
+      }, {
+        duration: 1200,          // 每次重组变形花 1.2 秒（稍微放慢点更优雅）
+        delay: stagger(150),     // 3个卡片会以 0.15 秒的时间差依次飞出，形成瀑布流视效
+        onComplete: () => {
+          // 动画结束后，等待 2 秒再进行下一次重组变换
+          setTimeout(() => {
+            animateLayout();
+          }, 2000);
+        }
+      });
+    }
+
+    // 在页面加载完毕后稍微等一下，然后启动这个疯狂的魔法循环！
+    setTimeout(() => {
+      const layoutAnimation = animateLayout();
+    }, 1000);
   </script>
 </body>
 </html>
